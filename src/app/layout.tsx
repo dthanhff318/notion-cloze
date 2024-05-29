@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ConvexClientProvider } from "~@/components/providers/convexProvider";
 import { ThemeProvider } from "~@/components/providers/themeProvider";
+import { Toaster } from "sonner";
 import "./globals.css";
+import { ConvexReactClient } from "convex/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +29,7 @@ export default function RootLayout({
             disableTransitionOnChange
             storageKey="notioz"
           >
+            <Toaster position="bottom-center" />
             {children}
           </ThemeProvider>
         </ConvexClientProvider>
