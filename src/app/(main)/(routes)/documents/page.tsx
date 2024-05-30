@@ -14,8 +14,6 @@ const DocumentsPage = () => {
 
   const onCreate = () => {
     const promise = create({ title: "Untitled" });
-    console.log(1);
-
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created!",
