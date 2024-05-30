@@ -4,6 +4,7 @@ import {
   LucideIcon,
   MoreHorizontal,
   Plus,
+  Trash,
 } from "lucide-react";
 import React from "react";
 import { Skeleton } from "~@/components/ui/skeleton";
@@ -20,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~@/components/ui/dropdown-menu";
+import { useUser } from "@clerk/clerk-react";
 
 interface Props {
   id?: Id<"documents">;
@@ -30,7 +32,7 @@ interface Props {
   level?: number;
   label: string;
   icon: LucideIcon;
-  onClick: () => void;
+  onClick?: () => void;
   onExpand?: () => void;
 }
 
@@ -46,7 +48,9 @@ const Item = ({
   onExpand,
   onClick,
 }: Props) => {
+  const { user } = useUser();
   const create = useMutation(api.documents.create);
+  const archive = useMutation(api.documents.archive);
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
   const handleExpand = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
@@ -68,6 +72,17 @@ const Item = ({
       loading: "Creating a new note...",
       success: "New note created!",
       error: "Failed to create a new note.",
+    });
+  };
+
+  const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
+    if (!id) return;
+    const promise = archive({ id });
+    toast.promise(promise, {
+      loading: "Moving to archive...",
+      success: "Note moved to archive!",
+      error: "Failed to achive note.",
     });
   };
 
@@ -113,6 +128,24 @@ const Item = ({
                 <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
               </div>
             </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-60"
+              align="start"
+              side="right"
+              forceMount
+            >
+              <DropdownMenuItem
+                onClick={onArchive}
+                className="flex items-start"
+              >
+                <Trash className="h-4 w-4 mr-2" />
+                <p>Delete</p>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <div className="text-xs text-muted-foreground p-2">
+                Last edited by: {user?.username}
+              </div>
+            </DropdownMenuContent>
           </DropdownMenu>
           <div
             className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"

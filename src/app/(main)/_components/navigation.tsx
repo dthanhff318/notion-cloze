@@ -1,7 +1,14 @@
 "use client";
 
 import { useQuery, useMutation } from "convex/react";
-import { ChevronsLeft, MenuIcon, Search, Settings } from "lucide-react";
+import {
+  ChevronsLeft,
+  MenuIcon,
+  Plus,
+  Search,
+  Settings,
+  Trash,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -12,6 +19,11 @@ import Item from "./item";
 import { PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 import DocumentList from "./documentList";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~@/components/ui/popover";
 
 const Navigation = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -132,6 +144,16 @@ const Navigation = () => {
         </div>
         <div className="mt-4">
           <DocumentList />
+          <Item onClick={handleCreate} icon={Plus} label="New note" />
+          <Popover>
+            <PopoverTrigger className="w-full mt-4">
+              <Item label="Trash" icon={Trash} />
+            </PopoverTrigger>
+            <PopoverContent
+              side={isMobile ? "bottom" : "right"}
+              className="p-0 w-72"
+            ></PopoverContent>
+          </Popover>
         </div>
         <div
           className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"

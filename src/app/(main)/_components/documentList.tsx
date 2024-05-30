@@ -49,7 +49,6 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
       </>
     );
   }
-  console.log(documents);
 
   return (
     <>
