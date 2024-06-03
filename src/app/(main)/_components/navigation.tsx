@@ -9,7 +9,7 @@ import {
   Settings,
   Trash,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { cn } from "~@/lib/utils";
@@ -25,12 +25,17 @@ import {
   PopoverTrigger,
 } from "~@/components/ui/popover";
 import TrashBox from "./trashBox";
+import { useSearch } from "~@/hooks/useSearch";
+import { useSettings } from "~@/hooks/useSettings";
+import Navbar from "~@/app/(main)/_components/navbar";
 
 const Navigation = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
   const pathname = usePathname();
+  const params = useParams();
+  const search = useSearch();
+  const settings = useSettings();
 
-  // const documents = useQuery(api.documents.getSidebar);
   const create = useMutation(api.documents.create);
 
   const isResizingRef = useRef(false);
@@ -139,8 +144,8 @@ const Navigation = () => {
         </div>
         <div>
           <UserItem />
-          <Item onClick={() => {}} label="Search" icon={Search} isSearch />
-          <Item onClick={() => {}} label="Settings" icon={Settings} />
+          <Item onClick={search.onOpen} label="Search" icon={Search} isSearch />
+          <Item onClick={settings.onOpen} label="Settings" icon={Settings} />
           <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
         </div>
         <div className="mt-4">
@@ -172,6 +177,9 @@ const Navigation = () => {
           isMobile && "left-0 w-full"
         )}
       >
+        {!!params.documentId && (
+          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+        )}
         <nav className="bg-transparent px-3 py-2 w-full">
           {isCollapsed && (
             <MenuIcon

@@ -35,7 +35,7 @@ const ConfirmModal = ({ children, onConfirm }: Props) => {
         {children}
       </AlertDialogTrigger>
       <AlertDialogContent
-        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
           e.stopPropagation();
         }}
         asChild
