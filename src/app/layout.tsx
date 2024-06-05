@@ -5,6 +5,7 @@ import { ConvexClientProvider } from "~@/components/providers/convexProvider";
 import { ThemeProvider } from "~@/components/providers/themeProvider";
 import "./globals.css";
 import { ModalProvider } from "~@/components/providers/modalProvider";
+import { EdgeStoreProvider } from "~@/lib/edgestore";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,17 +23,19 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ConvexClientProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="slate"
-            enableSystem
-            disableTransitionOnChange
-            storageKey="notioz"
-          >
-            <Toaster position="bottom-center" />
-            <ModalProvider />
-            {children}
-          </ThemeProvider>
+          <EdgeStoreProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="slate"
+              enableSystem
+              disableTransitionOnChange
+              storageKey="notioz"
+            >
+              <Toaster position="bottom-center" />
+              <ModalProvider />
+              {children}
+            </ThemeProvider>
+          </EdgeStoreProvider>
         </ConvexClientProvider>
       </body>
     </html>
