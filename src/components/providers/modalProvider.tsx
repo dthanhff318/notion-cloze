@@ -1,6 +1,7 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import CoverImage from "~@/components/modals/coverImageModal";
 import SettingsModal from "~@/components/modals/settingsModal";
 
 export const ModalProvider = () => {
@@ -14,6 +15,7 @@ export const ModalProvider = () => {
   return (
     <>
       <SettingsModal />
+      <CoverImage />
     </>
   );
 };

@@ -1,14 +1,13 @@
 "use client";
 
-import { redirect, useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { Doc, Id } from "~convex/_generated/dataModel";
-import { api } from "~convex/_generated/api";
 import { useQuery } from "convex/react";
-import { Skeleton } from "~@/components/ui/skeleton";
-import Item from "./item";
-import { cn } from "~@/lib/utils";
 import { FileIcon } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { cn } from "~@/lib/utils";
+import { api } from "~convex/_generated/api";
+import { Doc, Id } from "~convex/_generated/dataModel";
+import Item from "./item";
 
 interface Props {
   parentDocumentId?: Id<"documents">;
