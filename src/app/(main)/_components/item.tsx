@@ -14,7 +14,6 @@ import { Id } from "~convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "~convex/_generated/api";
 import { toast } from "sonner";
-import router from "next/router";
 import {
   DropdownMenu,
   DropdownMenuSeparator,
@@ -23,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "~@/components/ui/dropdown-menu";
 import { useUser } from "@clerk/clerk-react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   id?: Id<"documents">;
@@ -50,6 +50,7 @@ const Item = ({
   onClick,
 }: Props) => {
   const { user } = useUser();
+  const router = useRouter();
   const create = useMutation(api.documents.create);
   const archive = useMutation(api.documents.archive);
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
@@ -66,7 +67,7 @@ const Item = ({
         if (!expanded) {
           onExpand && onExpand();
         }
-        // router.push(`/documents/${docId}`);
+        router.push(`/documents/${docId}`);
       }
     );
     toast.promise(promise, {
