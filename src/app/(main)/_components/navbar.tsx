@@ -8,6 +8,7 @@ import Menu from "~@/app/(main)/_components/menu";
 import Title from "~@/app/(main)/_components/title";
 import { api } from "~convex/_generated/api";
 import { Id } from "~convex/_generated/dataModel";
+import Publish from "./publish";
 
 type Props = {
   isCollapsed: boolean;
@@ -45,6 +46,7 @@ const Navbar = ({ isCollapsed, onResetWidth }: Props) => {
         <div className="flex items-center justify-between w-full">
           <Title initialData={document} />
           <div className="flex items-start gap-x-2">
+            <Publish initialData={document} />
             <Menu documentId={document._id} />
           </div>
         </div>

@@ -80,7 +80,9 @@ const Item = ({
   const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
     if (!id) return;
-    const promise = archive({ id });
+    const promise = archive({ id }).then(() => {
+      router.push("/documents");
+    });
     toast.promise(promise, {
       loading: "Moving to archive...",
       success: "Note moved to archive!",
@@ -94,7 +96,7 @@ const Item = ({
       role="button"
       style={{ paddingLeft: level ? `${12 * level + 12}px` : "12px" }}
       className={cn(
-        "group min-h-[27px] text-smpy-1 pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium",
+        "group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium",
         active && "bg-primary/5 text-primary"
       )}
     >
@@ -110,7 +112,7 @@ const Item = ({
       {documentIcon ? (
         <div className="shrink-0 mr-2 text-[18px]">{documentIcon}</div>
       ) : (
-        <Icon className="shrink-0 h-[18px] mr-2 text-muted-foreground" />
+        <Icon className="shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground" />
       )}
 
       <span className="truncate">{label}</span>
@@ -166,7 +168,7 @@ Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
   return (
     <div
       style={{ paddingLeft: level ? `${12 * level + 25}px` : "12px" }}
-      className="flex gap-x-2 py-[3px]"
+      className="flex gap-x-2 py-1"
     >
       <Skeleton className="h-4 w-4" />
       <Skeleton className="h-4 w-[30%]" />

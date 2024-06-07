@@ -25,7 +25,9 @@ const Menu = ({ documentId }: Props) => {
   const { user } = useUser();
   const archive = useMutation(api.documents.archive);
   const onArchive = () => {
-    const promise = archive({ id: documentId });
+    const promise = archive({ id: documentId }).then(() => {
+      router.push("/documents");
+    });
     toast.promise(promise, {
       loading: "Moving to archive...",
       success: "Note moved to archive!",
@@ -45,7 +47,7 @@ const Menu = ({ documentId }: Props) => {
         alignOffset={8}
         forceMount
       >
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={onArchive}>
           <Trash className="h-4 w-4 mr-2" />
           Delete
         </DropdownMenuItem>

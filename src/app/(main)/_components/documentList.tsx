@@ -54,7 +54,7 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
       <p
         style={{ paddingLeft: level ? `${level * 12 + 25}px` : undefined }}
         className={cn(
-          "hidden text-sm font-medium text-muted-foreground",
+          "hidden text-sm font-medium text-muted-foreground py-1",
           expanded && "last:block",
           level === 0 && "hidden"
         )}

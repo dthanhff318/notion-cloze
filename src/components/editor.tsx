@@ -14,7 +14,7 @@ type Props = {
   editable?: boolean;
 };
 
-const Editor = ({ initialContent, editable, onChange }: Props) => {
+const Editor = ({ initialContent, editable = true, onChange }: Props) => {
   const { resolvedTheme } = useTheme();
   const { edgestore } = useEdgeStore();
   const handleUpload = async (file: File) => {
@@ -33,6 +33,7 @@ const Editor = ({ initialContent, editable, onChange }: Props) => {
   return (
     <BlockNoteView
       editor={editor}
+      editable={editable}
       theme={resolvedTheme === "dark" ? "dark" : "light"}
       onChange={() => onChange(JSON.stringify(editor.document))}
     />

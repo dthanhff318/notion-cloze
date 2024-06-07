@@ -188,6 +188,7 @@ export const getById = query({
     if (!document) {
       throw new Error("Not found");
     }
+    console.log(document.isPublished, !document.isArchived);
     if (document.isPublished && !document.isArchived) {
       return document;
     }
