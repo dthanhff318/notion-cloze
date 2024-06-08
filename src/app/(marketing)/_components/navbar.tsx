@@ -24,12 +24,12 @@ const Navbar = () => {
         {isLoading && <Spinner />}
         {!isAuthenticated && !isLoading && (
           <>
-            <SignInButton mode="modal" fallbackRedirectUrl="/">
+            <SignInButton mode="modal" fallbackRedirectUrl="/documents">
               <Button variant={"ghost"} size="sm">
                 Log in
               </Button>
             </SignInButton>
-            <SignInButton mode="modal" fallbackRedirectUrl="/">
+            <SignInButton mode="modal" fallbackRedirectUrl="/documents">
               <Button size="sm">Get notioz free</Button>
             </SignInButton>
           </>
