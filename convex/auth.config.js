@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "https://merry-gnu-84.clerk.accounts.dev",
+      domain: "https://quick-leopard-17.clerk.accounts.dev",
       applicationID: "convex",
     },
   ],

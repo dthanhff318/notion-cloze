@@ -32,7 +32,7 @@ export const Heading = () => {
         </Button>
       )}
       {!isAuthenticated && !isLoading && (
-        <SignInButton mode="modal">
+        <SignInButton mode="modal" fallbackRedirectUrl="/">
           <Button>
             Get notioz free <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
