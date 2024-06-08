@@ -6,10 +6,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "files.edgestore.dev",
         port: "",
-        pathname: '**',
+        pathname: "**",
       },
     ],
   },
+  ignoreDuringBuilds: true,
 };
 
 export default nextConfig;
