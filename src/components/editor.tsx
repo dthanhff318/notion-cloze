@@ -36,6 +36,7 @@ const Editor = ({ initialContent, editable = true, onChange }: Props) => {
       editable={editable}
       theme={resolvedTheme === "dark" ? "dark" : "light"}
       onChange={() => onChange(JSON.stringify(editor.document))}
+      {...({} as any)}
     />
   );
 };
