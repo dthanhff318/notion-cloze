@@ -1,33 +1,32 @@
 "use client";
-
-import { useQuery, useMutation } from "convex/react";
+import { useMutation } from "convex/react";
 import {
   ChevronsLeft,
   MenuIcon,
   Plus,
+  PlusCircle,
   Search,
   Settings,
   Trash,
 } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { ElementRef, useEffect, useRef, useState } from "react";
-import { useMediaQuery } from "usehooks-ts";
-import { cn } from "~@/lib/utils";
-import UserItem from "./userItem";
-import { api } from "~convex/_generated/api";
-import Item from "./item";
-import { PlusCircle } from "lucide-react";
 import { toast } from "sonner";
-import DocumentList from "./documentList";
+import { useMediaQuery } from "usehooks-ts";
+import Navbar from "~@/app/(main)/_components/navbar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "~@/components/ui/popover";
-import TrashBox from "./trashBox";
 import { useSearch } from "~@/hooks/useSearch";
 import { useSettings } from "~@/hooks/useSettings";
-import Navbar from "~@/app/(main)/_components/navbar";
+import { cn } from "~@/lib/utils";
+import { api } from "~convex/_generated/api";
+import DocumentList from "./documentList";
+import Item from "./item";
+import TrashBox from "./trashBox";
+import UserItem from "./userItem";
 
 const Navigation = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
