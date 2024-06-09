@@ -35,11 +35,11 @@ const Navbar = ({ isCollapsed, onResetWidth }: Props) => {
   }
   return (
     <>
-      <nav className="bg-background dark:bg-[#1f1f1f] px-3 py-2 w-full flex items-center ">
+      <nav className="bg-background dark:bg-[#1f1f1f] px-3 py-2 w-full flex items-center">
         {isCollapsed && (
           <MenuIcon
             role="button"
-            className="h-6 w-6 text-muted-foreground"
+            className="h-6 w-6 text-muted-foreground mr-2"
             onClick={onResetWidth}
           />
         )}
@@ -47,7 +47,7 @@ const Navbar = ({ isCollapsed, onResetWidth }: Props) => {
           <Title initialData={document} />
           <div className="flex items-start gap-x-2">
             <Publish initialData={document} />
-            <Menu documentId={document._id} />
+            <Menu document={document} />
           </div>
         </div>
       </nav>

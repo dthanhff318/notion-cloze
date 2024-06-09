@@ -1,6 +1,6 @@
 import { useUser } from "@clerk/clerk-react";
 import { useMutation } from "convex/react";
-import { MoreHorizontal, Trash } from "lucide-react";
+import { Archive, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
@@ -14,24 +14,38 @@ import {
 } from "~@/components/ui/dropdown-menu";
 import { Skeleton } from "~@/components/ui/skeleton";
 import { api } from "~convex/_generated/api";
-import { Id } from "~convex/_generated/dataModel";
+import { Doc } from "~convex/_generated/dataModel";
 
 type Props = {
-  documentId: Id<"documents">;
+  document: Doc<"documents">;
 };
 
-const Menu = ({ documentId }: Props) => {
+const Menu = ({ document }: Props) => {
   const router = useRouter();
   const { user } = useUser();
   const archive = useMutation(api.documents.archive);
+  const remove = useMutation(api.documents.remove);
   const onArchive = () => {
-    const promise = archive({ id: documentId }).then(() => {
+    const promise = archive({ id: document._id }).then(() => {
       router.push("/documents");
     });
     toast.promise(promise, {
       loading: "Moving to archive...",
       success: "Note moved to archive!",
       error: "Failed to achive note.",
+    });
+  };
+
+  const onRemove = () => {
+    const promise = remove({
+      id: document._id,
+    }).then(() => {
+      router.push("/documents");
+    });
+    toast.promise(promise, {
+      loading: "Removing note...",
+      success: "Note have been removed!",
+      error: "Failed to remove note.",
     });
   };
   return (
@@ -47,10 +61,17 @@ const Menu = ({ documentId }: Props) => {
         alignOffset={8}
         forceMount
       >
-        <DropdownMenuItem onClick={onArchive}>
-          <Trash className="h-4 w-4 mr-2" />
-          Delete
-        </DropdownMenuItem>
+        {document.isArchived ? (
+          <DropdownMenuItem onClick={onRemove}>
+            <Trash className="h-4 w-4 mr-2" />
+            Delete
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem onClick={onArchive}>
+            <Archive className="h-4 w-4 mr-2" />
+            Archive
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <div className="text-xs text-muted-foreground p-2">
           Last edit by: {user?.username}
