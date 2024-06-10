@@ -7,6 +7,7 @@ import ConfirmModal from "~@/components/modals/confirmModal";
 import { Button } from "~@/components/ui/button";
 import { api } from "~convex/_generated/api";
 import { Id } from "~convex/_generated/dataModel";
+import { APP_ROUTE } from "~@/constanst/router";
 
 type Props = {
   documentId: Id<"documents">;
@@ -24,7 +25,7 @@ const Banner = ({ documentId }: Props) => {
       success: "Note deleted!",
       error: "Failed to delete.",
     });
-    router.push("/documents");
+    router.push(APP_ROUTE.DOCUMENTS);
   };
 
   const onRestore = () => {

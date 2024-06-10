@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { Button } from "~@/components/ui/button";
 import Link from "next/link";
+import { APP_ROUTE } from "~@/constanst/router";
 
 const Error = () => {
   return (
@@ -23,9 +24,7 @@ const Error = () => {
       />
       <h2 className="text-xl font-medium">Something went wrong</h2>
       <Button asChild>
-        <Link href="/documents" >
-        Go back
-        </Link>
+        <Link href={APP_ROUTE.DOCUMENTS}>Go back</Link>
       </Button>
     </div>
   );

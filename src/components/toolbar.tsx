@@ -116,6 +116,7 @@ const Toolbar = ({ initialData, preview }: Props) => {
           onKeyDown={onKeyDown}
           value={value}
           onChange={(e) => onInput(e.target.value)}
+          placeholder="Untitled"
           className="text-5xl bg-transparent font-bold break-words outline-none text-[#3f3f3f] dark:text-[#CFCFCF] resize-none"
         />
       ) : (

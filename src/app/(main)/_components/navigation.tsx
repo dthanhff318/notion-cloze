@@ -19,10 +19,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~@/components/ui/popover";
+import { APP_ROUTE } from "~@/constanst/router";
 import { useSearch } from "~@/hooks/useSearch";
 import { useSettings } from "~@/hooks/useSettings";
 import { cn } from "~@/lib/utils";
+import { replacePathParams } from "~@/utils/router";
 import { api } from "~convex/_generated/api";
+import DocumentGroup from "./documentGroup";
 import DocumentList from "./documentList";
 import Item from "./item";
 import TrashBox from "./trashBox";
@@ -102,7 +105,7 @@ const Navigation = () => {
 
   const handleCreate = () => {
     const promise = create({ title: "Untitled" }).then((docId) => {
-      router.push(`/documents/${docId}`);
+      router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }));
     });
     toast.promise(promise, {
       loading: "Creating a new note...",
@@ -151,7 +154,7 @@ const Navigation = () => {
           <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
         </div>
         <div className="mt-4">
-          <DocumentList />
+          <DocumentGroup />
           <Item onClick={handleCreate} icon={Plus} label="New note" />
           <Popover>
             <PopoverTrigger className="w-full mt-4">

@@ -15,6 +15,7 @@ import {
 import { Skeleton } from "~@/components/ui/skeleton";
 import { api } from "~convex/_generated/api";
 import { Doc } from "~convex/_generated/dataModel";
+import { APP_ROUTE } from "~@/constanst/router";
 
 type Props = {
   document: Doc<"documents">;
@@ -27,7 +28,7 @@ const Menu = ({ document }: Props) => {
   const remove = useMutation(api.documents.remove);
   const onArchive = () => {
     const promise = archive({ id: document._id }).then(() => {
-      router.push("/documents");
+      router.push(APP_ROUTE.DOCUMENTS);
     });
     toast.promise(promise, {
       loading: "Moving to archive...",
@@ -40,7 +41,7 @@ const Menu = ({ document }: Props) => {
     const promise = remove({
       id: document._id,
     }).then(() => {
-      router.push("/documents");
+      router.push(APP_ROUTE.DOCUMENTS);
     });
     toast.promise(promise, {
       loading: "Removing note...",

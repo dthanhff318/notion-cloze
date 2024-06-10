@@ -6,7 +6,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "~@/components/ui/button";
+import { replacePathParams } from "~@/utils/router";
 import { api } from "~convex/_generated/api";
+import { APP_ROUTE } from "~@/constanst/router";
 
 const DocumentsPage = () => {
   const { user } = useUser();
@@ -15,7 +17,7 @@ const DocumentsPage = () => {
 
   const onCreate = () => {
     const promise = create({ title: "Untitled" }).then((docId) => {
-      router.push(`/documents/${docId}`);
+      router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }));
     });
     toast.promise(promise, {
       loading: "Creating a new note...",

@@ -88,6 +88,20 @@ export const getSidebar = query({
   },
 });
 
+export const getFavouriteDocs = query({
+  handler: async (ctx) => {
+    const identity = await checkAuth(ctx);
+    const userId = identity.subject;
+    const documents = await ctx.db
+      .query("documents")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .filter((q) => q.eq(q.field("isFavourite"), true))
+      .order("desc")
+      .collect();
+    return documents;
+  },
+});
+
 export const getTrash = query({
   handler: async (ctx) => {
     const identity = await checkAuth(ctx);

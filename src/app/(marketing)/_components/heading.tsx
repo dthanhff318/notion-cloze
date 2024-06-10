@@ -6,17 +6,18 @@ import { useConvexAuth } from "convex/react";
 import { Spinner } from "~@/components/spinner";
 import { SignInButton } from "@clerk/clerk-react";
 import Link from "next/link";
+import { APP_ROUTE } from "~@/constanst/router";
 export const Heading = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   return (
     <div className="max-w-3xl space-y-4">
       <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold">
-        Your Ideas, Documents, & Plans. Unified. Welcome to{" "}
-        <span className="underline">Notioz</span>
+        Note your Ideas, Task, & Plans. Unified. Welcome to{" "}
+        <span className="underline">tizZote</span>
       </h1>
       <h3 className="text-base sm:text-xl md:text-2xl font-medium">
-        Notioz is the connected workspace where <br />
-        betterm faster than work happens
+        tizZote is a tool for managing and sharing task, <br />
+        supporting teamwork, and it's FREE for everyone
       </h3>
       {isLoading && (
         <div className="w-full flex items-center justify-center">
@@ -25,16 +26,16 @@ export const Heading = () => {
       )}
       {isAuthenticated && !isLoading && (
         <Button asChild>
-          <Link href="/documents">
-            Enter Notioz
+          <Link href={APP_ROUTE.DOCUMENTS}>
+            Enter tizZote
             <ArrowRight className="h-4 w-4 ml-2" />
           </Link>
         </Button>
       )}
       {!isAuthenticated && !isLoading && (
-        <SignInButton mode="modal" fallbackRedirectUrl="/documents">
+        <SignInButton mode="modal" fallbackRedirectUrl={APP_ROUTE.DOCUMENTS}>
           <Button>
-            Get notioz free <ArrowRight className="h-4 w-4 ml-2" />
+            Get tizZote free <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </SignInButton>
       )}

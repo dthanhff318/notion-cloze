@@ -9,6 +9,8 @@ import { Input } from "~@/components/ui/input";
 import { api } from "~convex/_generated/api";
 import { Id } from "~convex/_generated/dataModel";
 import ConfirmModal from "~@/components/modals/confirmModal";
+import { replacePathParams } from "~@/utils/router";
+import { APP_ROUTE } from "~@/constanst/router";
 
 const Trashbox = () => {
   const router = useRouter();
@@ -24,7 +26,7 @@ const Trashbox = () => {
   });
 
   const onClick = (docId: string) => {
-    router.push(`/documents/${docId}`);
+    router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }));
   };
 
   const onRestore = (
@@ -49,7 +51,7 @@ const Trashbox = () => {
     });
 
     if (params.documentId === docId) {
-      //   router.push("/documents");
+        router.push(APP_ROUTE.DOCUMENTS);
     }
   };
 

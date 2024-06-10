@@ -17,7 +17,7 @@ interface Props {
   data?: Doc<"documents">[];
 }
 
-const DocumentList = ({ parentDocumentId, level, data }: Props) => {
+const DocumentFavourite = ({ parentDocumentId, level, data }: Props) => {
   const params = useParams();
   const router = useRouter();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -29,9 +29,9 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
     }));
   };
 
-  const documents = useQuery(api.documents.getSidebar, {
-    parentDocument: parentDocumentId,
-  }) as Doc<"documents">[] | undefined;
+  const documents = useQuery(api.documents.getFavouriteDocs) as
+    | Doc<"documents">[]
+    | undefined;
 
   const onRedirect = (docId: string) => {
     router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }));
@@ -54,7 +54,7 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
   return (
     <>
       <p
-        style={{ paddingLeft: level ? `${level * 12 + 25}px` : undefined }}
+        style={{ paddingLeft: `12px` }}
         className={cn(
           "hidden text-sm font-medium text-muted-foreground py-1",
           expanded && "last:block",
@@ -76,13 +76,10 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
             onExpand={() => onExpand(doc._id)}
             expanded={expanded[doc._id]}
           />
-          {expanded[doc._id] && (
-            <DocumentList level={(level ?? 0) + 1} parentDocumentId={doc._id} />
-          )}
         </div>
       ))}
     </>
   );
 };
 
-export default DocumentList;
+export default DocumentFavourite;

@@ -27,7 +27,7 @@ const SearchCommand = () => {
   const onClose = useSearch((store) => store.onClose);
 
   const onSelect = (id: string) => {
-    router.push(`/dcoments/${id}`);
+    router.push(`/document/${id}`);
     onClose();
   };
 
@@ -61,7 +61,7 @@ const SearchCommand = () => {
               key={doc._id}
               value={`${doc._id}-${doc?.title}`}
               title={doc?.title}
-              onSelect={onSelect}
+              onSelect={() => onSelect(doc._id)}
             >
               {doc.icon ? (
                 <p className="mr-2 text-[18px]">{doc.icon}</p>

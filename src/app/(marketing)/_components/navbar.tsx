@@ -8,6 +8,7 @@ import Logo from "./logo";
 import { Button } from "~@/components/ui/button";
 import { Spinner } from "~@/components/spinner";
 import Link from "next/link";
+import { APP_ROUTE } from "~@/constanst/router";
 
 const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -24,20 +25,20 @@ const Navbar = () => {
         {isLoading && <Spinner />}
         {!isAuthenticated && !isLoading && (
           <>
-            <SignInButton mode="modal" fallbackRedirectUrl="/documents">
+            <SignInButton
+              mode="modal"
+              fallbackRedirectUrl={APP_ROUTE.DOCUMENTS}
+            >
               <Button variant={"ghost"} size="sm">
                 Log in
               </Button>
-            </SignInButton>
-            <SignInButton mode="modal" fallbackRedirectUrl="/documents">
-              <Button size="sm">Get notioz free</Button>
             </SignInButton>
           </>
         )}
         {isAuthenticated && !isLoading && (
           <>
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/documents">Enter Notioz</Link>
+              <Link href={APP_ROUTE.DOCUMENTS}>Start tizZote</Link>
             </Button>
             <UserButton afterSignOutUrl="/" />
           </>

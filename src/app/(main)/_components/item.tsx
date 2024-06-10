@@ -5,6 +5,7 @@ import {
   LucideIcon,
   MoreHorizontal,
   Plus,
+  Star,
   Trash,
 } from "lucide-react";
 import React from "react";
@@ -23,6 +24,8 @@ import {
 } from "~@/components/ui/dropdown-menu";
 import { useUser } from "@clerk/clerk-react";
 import { useRouter } from "next/navigation";
+import { replacePathParams } from "~@/utils/router";
+import { APP_ROUTE } from "~@/constanst/router";
 
 interface Props {
   id?: Id<"documents">;
@@ -67,7 +70,9 @@ const Item = ({
         if (!expanded) {
           onExpand && onExpand();
         }
-        router.push(`/documents/${docId}`);
+        router.push(
+          replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId })
+        );
       }
     );
     toast.promise(promise, {
@@ -81,7 +86,7 @@ const Item = ({
     event.stopPropagation();
     if (!id) return;
     const promise = archive({ id }).then(() => {
-      router.push("/documents");
+      router.push(APP_ROUTE.DOCUMENTS);
     });
     toast.promise(promise, {
       loading: "Moving to archive...",
@@ -138,6 +143,13 @@ const Item = ({
               side="right"
               forceMount
             >
+              <DropdownMenuItem
+                onClick={onArchive}
+                className="flex items-start"
+              >
+                <Star className="h-4 w-4 mr-2" />
+                <p>Favourites</p>
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={onArchive}
                 className="flex items-start"
