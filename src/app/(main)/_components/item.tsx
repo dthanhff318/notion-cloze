@@ -1,11 +1,13 @@
 "use client";
 import {
+  Archive,
   ChevronDown,
   ChevronRight,
   LucideIcon,
   MoreHorizontal,
   Plus,
   Star,
+  StarOff,
   Trash,
 } from "lucide-react";
 import React from "react";
@@ -36,6 +38,8 @@ interface Props {
   level?: number;
   label: string;
   icon: LucideIcon;
+  isFavourite?: boolean;
+  itemFavourite?: boolean;
   onClick?: () => void;
   onExpand?: () => void;
 }
@@ -49,6 +53,8 @@ const Item = ({
   expanded,
   isSearch,
   level,
+  isFavourite,
+  itemFavourite,
   onExpand,
   onClick,
 }: Props) => {
@@ -56,6 +62,7 @@ const Item = ({
   const router = useRouter();
   const create = useMutation(api.documents.create);
   const archive = useMutation(api.documents.archive);
+  const update = useMutation(api.documents.update);
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
   const handleExpand = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
@@ -95,6 +102,23 @@ const Item = ({
     });
   };
 
+  const addToFavourite = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    if (!id) return;
+    console.log(!isFavourite);
+
+    const promise = update({ id, isFavourite: !isFavourite }).then(() => {
+      router.push(APP_ROUTE.DOCUMENTS);
+    });
+    toast.promise(promise, {
+      loading: "Adding to favorites...",
+      success: "Added to favorites!",
+      error: "Failed to action.",
+    });
+  };
+
   return (
     <div
       onClick={onClick}
@@ -105,7 +129,7 @@ const Item = ({
         active && "bg-primary/5 text-primary"
       )}
     >
-      {!!id && (
+      {!!id && !itemFavourite && (
         <div
           role="button"
           className="h-full rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1"
@@ -143,18 +167,29 @@ const Item = ({
               side="right"
               forceMount
             >
+              {!isFavourite && !itemFavourite && (
+                <DropdownMenuItem
+                  onClick={addToFavourite}
+                  className="flex items-center"
+                >
+                  <Star className="h-4 w-4 mr-2" />
+                  <p>Favourite</p>
+                </DropdownMenuItem>
+              )}
+              {itemFavourite && (
+                <DropdownMenuItem
+                  onClick={addToFavourite}
+                  className="flex items-center"
+                >
+                  <StarOff className="h-4 w-4 mr-2" />
+                  <p>Unfavourite</p>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem
                 onClick={onArchive}
-                className="flex items-start"
+                className="flex items-center"
               >
-                <Star className="h-4 w-4 mr-2" />
-                <p>Favourites</p>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={onArchive}
-                className="flex items-start"
-              >
-                <Trash className="h-4 w-4 mr-2" />
+                <Archive className="h-4 w-4 mr-2" />
                 <p>Delete</p>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -163,13 +198,15 @@ const Item = ({
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
-          <div
-            className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
-            onClick={onCreate}
-            role="button"
-          >
-            <Plus className="h-4 w-4 text-muted-foreground" />
-          </div>
+          {!itemFavourite && (
+            <div
+              className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
+              onClick={onCreate}
+              role="button"
+            >
+              <Plus className="h-4 w-4 text-muted-foreground" />
+            </div>
+          )}
         </div>
       )}
     </div>

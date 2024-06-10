@@ -75,6 +75,7 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
             onClick={() => onRedirect(doc._id)}
             onExpand={() => onExpand(doc._id)}
             expanded={expanded[doc._id]}
+            isFavourite={doc.isFavourite}
           />
           {expanded[doc._id] && (
             <DocumentList level={(level ?? 0) + 1} parentDocumentId={doc._id} />

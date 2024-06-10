@@ -15,7 +15,7 @@ const DocumentGroup = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 flex-1 overflow-y-auto">
       {listCategory.map((e) => (
         <div>
           <div

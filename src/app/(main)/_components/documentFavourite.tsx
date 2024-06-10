@@ -75,6 +75,8 @@ const DocumentFavourite = ({ parentDocumentId, level, data }: Props) => {
             onClick={() => onRedirect(doc._id)}
             onExpand={() => onExpand(doc._id)}
             expanded={expanded[doc._id]}
+            itemFavourite={true}
+            isFavourite={doc.isFavourite}
           />
         </div>
       ))}
