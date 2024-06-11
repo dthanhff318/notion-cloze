@@ -30,6 +30,7 @@ const Toolbar = ({ initialData, preview }: Props) => {
     setTimeout(() => {
       setValue(initialData.title);
       inputRef.current?.focus();
+      inputRef.current?.setSelectionRange(0, value.length);
     }, 0);
   };
 

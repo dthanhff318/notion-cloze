@@ -1,13 +1,12 @@
-import EmojiPicker, { EmojiStyle, Theme } from "emoji-picker-react";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 import { useTheme } from "next-themes";
 import React from "react";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "~@/components/ui/popover";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
 
 type Props = {
   onChange: (icon: string) => void;
@@ -21,26 +20,11 @@ type TEmojiData = {
 
 const IconPicker = ({ onChange, children, asChild }: Props) => {
   const { resolvedTheme } = useTheme();
-  const currentTheme = (resolvedTheme || "light") as keyof typeof themeMap;
-  const themeMap = {
-    dark: Theme.DARK,
-    light: Theme.LIGHT,
-  };
-  const theme = themeMap[currentTheme];
+  const theme = resolvedTheme === "dark" ? "dark" : "light";
   return (
     <Popover>
       <PopoverTrigger asChild={asChild}>{children}</PopoverTrigger>
       <PopoverContent className="p-0 w-full border-none shadow-none">
-        {/* <EmojiPicker
-          height={350}
-          theme={theme}
-          lazyLoadEmojis={true}
-          emojiStyle={EmojiStyle.GOOGLE}
-          previewConfig={{
-            showPreview: false,
-          }}
-          onEmojiClick={(data) => onChange(data.emoji)}
-        /> */}
         <Picker
           height={350}
           maxFrequentRows={2}

@@ -20,8 +20,8 @@ const DocumentIdPage = ({ params }: Props) => {
     () => dynamic(() => import("~@/components/editor"), { ssr: false }),
     []
   );
-  const document = useQuery(api.documents.getById, {
-    documentId: params.documentId,
+  const document = useQuery(api.documents.getPreviewById, {
+    id: params.documentId,
   });
 
   const update = useMutation(api.documents.update);

@@ -3,7 +3,6 @@ import { useMutation } from "convex/react";
 import {
   ChevronsLeft,
   MenuIcon,
-  Plus,
   PlusCircle,
   Search,
   Settings,
@@ -26,7 +25,6 @@ import { cn } from "~@/lib/utils";
 import { replacePathParams } from "~@/utils/router";
 import { api } from "~convex/_generated/api";
 import DocumentGroup from "./documentGroup";
-import DocumentList from "./documentList";
 import Item from "./item";
 import TrashBox from "./trashBox";
 import UserItem from "./userItem";
@@ -147,19 +145,19 @@ const Navigation = () => {
         >
           <ChevronsLeft className="h-6 w-6" />
         </div>
-        <div className="grow">
+        <div className="px-2 space-y-[0.5]">
           <UserItem />
           <Item onClick={search.onOpen} label="Search" icon={Search} isSearch />
           <Item onClick={settings.onOpen} label="Settings" icon={Settings} />
           <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
         </div>
-        <div className="mt-4 grow-0">
+        <div className="mt-4 overflow-y-auto px-2">
           <DocumentGroup />
           {/* <Item onClick={handleCreate} icon={Plus} label="New note" /> */}
         </div>
 
         <Popover>
-          <PopoverTrigger className="w-full my-4 grow">
+          <PopoverTrigger className="w-full py-2 h-fit border-[1px] border-solid border-text-muted-foreground">
             <Item label="Trash" icon={Trash} />
           </PopoverTrigger>
           <PopoverContent
@@ -171,7 +169,7 @@ const Navigation = () => {
         </Popover>
 
         <div
-          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"
+          className="opacity-0 hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"
           onMouseDown={handleMouseDown}
           onClick={resetWidth}
         ></div>

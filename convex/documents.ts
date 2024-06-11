@@ -202,7 +202,6 @@ export const getById = query({
     if (!document) {
       throw new Error("Not found");
     }
-    console.log(document.isPublished, !document.isArchived);
     if (document.isPublished && !document.isArchived) {
       return document;
     }
@@ -280,5 +279,21 @@ export const removeCoverImage = mutation({
       coverImage: undefined,
     });
     return document;
+  },
+});
+
+export const getPreviewById = query({
+  args: {
+    id: v.id("documents"),
+  },
+  handler: async (ctx, args) => {
+    const document = await ctx.db.get(args.id);
+    if (!document) {
+      throw new Error("Not found");
+    }
+    if (document.isPublished && !document.isArchived) {
+      return document;
+    }
+    throw new Error("Not found");
   },
 });

@@ -125,23 +125,30 @@ const Item = ({
       role="button"
       style={{ paddingLeft: level ? `${12 * level + 12}px` : "12px" }}
       className={cn(
-        "group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium",
+        "group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium rounded-sm",
         active && "bg-primary/5 text-primary"
       )}
     >
       {!!id && !itemFavourite && (
         <div
           role="button"
-          className="h-full rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1"
+          className="h-full rounded-sm hidden group-hover:flex hover:bg-neutral-300 dark:bg-neutral-600 mr-2 min-w-[26px]  justify-center"
           onClick={handleExpand}
         >
-          <ChevronIcon className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <ChevronIcon className="h-5 w-5 shrink-0 text-muted-foreground" />
         </div>
       )}
       {documentIcon ? (
-        <div className="shrink-0 mr-2 text-[18px]">{documentIcon}</div>
+        <div className="shrink-0 mr-2 text-[18px] group-hover:hidden min-w-[26px]">
+          {documentIcon}
+        </div>
       ) : (
-        <Icon className="shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground" />
+        <Icon
+          className={cn(
+            "shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground  min-w-[26px]",
+            !!id && "group-hover:hidden"
+          )}
+        />
       )}
 
       <span className="truncate">{label}</span>
