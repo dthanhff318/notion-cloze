@@ -1,17 +1,13 @@
 "use client";
-import React, { useState } from "react";
-import { useOrigin } from "~@/hooks/useOrigin";
-import { Doc } from "~convex/_generated/dataModel";
 import { useMutation } from "convex/react";
-import { api } from "~convex/_generated/api";
+import { AppWindow, Check, Copy, Globe, Radio } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~@/components/ui/popover";
 import { Button } from "~@/components/ui/button";
-import { Check, Copy, Globe } from "lucide-react";
+import { useOrigin } from "~@/hooks/useOrigin";
+import { api } from "~convex/_generated/api";
+import { Doc } from "~convex/_generated/dataModel";
+import { Switch } from "~@/components/ui/switch";
 
 type Props = {
   initialData: Doc<"documents">;
@@ -47,43 +43,40 @@ const Publish = ({ initialData }: Props) => {
       setCopied(false);
     }, 1500);
   };
+
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button size="sm" variant="ghost">
-          Publish
-          {initialData.isPublished && (
-            <Globe className="text-sky-500 w-4 h-4 ml-2" />
-          )}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-72" align="end" alignOffset={8} forceMount>
-        {initialData.isPublished ? (
-          <div className="space-y-4">
-            <div className="flex items-center gap-x-2">
-              <Globe className="text-sky-500 w-4 h-4 animate-pulse" />
-              <p className="text-xs font-medium text-sky-500">
-                This note is live on web
-              </p>
+    <>
+      {initialData.isPublished ? (
+        <div className="space-y-4">
+          <div className="flex items-center gap-x-2">
+            <Radio className="text-sky-500 w-4 h-4 animate-pulse" />
+            <p className="text-xs font-medium text-sky-500">Live on the web.</p>
+          </div>
+          <div className="flex items-center">
+            <input
+              value={url}
+              className="flex-1 px-2 text-xs border rounded-l-md h-8 bg-muted truncate"
+              disabled
+            />
+            <Button
+              onClick={onCopy}
+              disabled={copied}
+              className="h-8 rounded-l-none"
+            >
+              {copied ? (
+                <Check className="h-4 w-4" />
+              ) : (
+                <Copy className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+          <div className="mt-2">
+            <div className="flex justify-between">
+              <p className="text-xs">Allow editing</p>
+              <Switch />
             </div>
-            <div className="flex items-center">
-              <input
-                value={url}
-                className="flex-1 px-2 text-xs border rounded-l-md h-8 bg-muted truncate"
-                disabled
-              />
-              <Button
-                onClick={onCopy}
-                disabled={copied}
-                className="h-8 rounded-l-none"
-              >
-                {copied ? (
-                  <Check className="h-4 w-4" />
-                ) : (
-                  <Copy className="h-4 w-4" />
-                )}
-              </Button>
-            </div>
+          </div>
+          <div className="flex gap-2">
             <Button
               size="sm"
               disabled={isSubmitting}
@@ -92,25 +85,35 @@ const Publish = ({ initialData }: Props) => {
             >
               Unpublish
             </Button>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center">
-            <Globe className="text-muted-foreground w-8 h-8 mb-2" />
-            <p className="text-sm font-medium mb-2">Publish this note</p>
-            <span className="text-xs text-muted-foreground mb-4">
-              Share your work with others.
-            </span>
             <Button
+              size="sm"
               disabled={isSubmitting}
-              onClick={onPublish}
-              className="w-full text-xs"
+              //   onClick={onPublish}
+              variant="outline"
+              className="w-full text-xs space-x-1"
             >
-              Publish
+              <Globe className="h-4 w-4 text-sky-500 mr-1" />
+              View site
             </Button>
           </div>
-        )}
-      </PopoverContent>
-    </Popover>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center">
+          <AppWindow className="text-muted-foreground w-8 h-8 mb-2" />
+          <p className="text-sm font-medium mb-2">Publish to web</p>
+          <span className="text-xs text-muted-foreground mb-4">
+            Publish a static website of this page.
+          </span>
+          <Button
+            disabled={isSubmitting}
+            onClick={onPublish}
+            className="w-full text-xs"
+          >
+            Publish
+          </Button>
+        </div>
+      )}
+    </>
   );
 };
 

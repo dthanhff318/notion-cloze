@@ -5,10 +5,10 @@ import { MenuIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import Banner from "~@/app/(main)/_components/banner";
 import Menu from "~@/app/(main)/_components/menu";
+import Share from "~@/app/(main)/_components/share";
 import Title from "~@/app/(main)/_components/title";
 import { api } from "~convex/_generated/api";
 import { Id } from "~convex/_generated/dataModel";
-import Publish from "./publish";
 
 type Props = {
   isCollapsed: boolean;
@@ -46,7 +46,7 @@ const Navbar = ({ isCollapsed, onResetWidth }: Props) => {
         <div className="flex items-center justify-between w-full">
           <Title initialData={document} />
           <div className="flex items-start gap-x-2">
-            <Publish initialData={document} />
+            <Share initialData={document} />
             <Menu document={document} />
           </div>
         </div>
