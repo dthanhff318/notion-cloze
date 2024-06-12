@@ -17,7 +17,7 @@ const DocumentGroup = () => {
   return (
     <div className="flex flex-col gap-4 flex-1 overflow-y-auto">
       {listCategory.map((e) => (
-        <div>
+        <div key={e.title}>
           <div
             role="button"
             className="group px-3 py-2 w-full flex items-center justify-between hover:bg-primary/5"

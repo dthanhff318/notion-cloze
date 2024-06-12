@@ -13,7 +13,7 @@ import {
 import React from "react";
 import { Skeleton } from "~@/components/ui/skeleton";
 import { cn } from "~@/lib/utils";
-import { Id } from "~convex/_generated/dataModel";
+import { Doc, Id } from "~convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "~convex/_generated/api";
 import { toast } from "sonner";
@@ -28,8 +28,10 @@ import { useUser } from "@clerk/clerk-react";
 import { useRouter } from "next/navigation";
 import { replacePathParams } from "~@/utils/router";
 import { APP_ROUTE } from "~@/constanst/router";
-
+import { FORMAT_TIME_FULLY } from "~@/constanst/time";
+import moment from "moment";
 interface Props {
+  doc: Doc<"documents">;
   id?: Id<"documents">;
   documentIcon?: string;
   active?: boolean;
@@ -46,6 +48,7 @@ interface Props {
 
 const Item = ({
   id,
+  doc,
   label,
   icon: Icon,
   documentIcon,
@@ -107,9 +110,8 @@ const Item = ({
   ) => {
     event.stopPropagation();
     if (!id) return;
-    console.log(!isFavourite);
 
-    const promise = update({ id, isFavourite: !isFavourite }).then(() => {
+    const promise = update({ id, isFavourite: !doc.isFavourite }).then(() => {
       router.push(APP_ROUTE.DOCUMENTS);
     });
     toast.promise(promise, {
@@ -139,14 +141,19 @@ const Item = ({
         </div>
       )}
       {documentIcon ? (
-        <div className="shrink-0 mr-2 text-[18px] group-hover:hidden min-w-[26px]">
+        <div
+          className={cn(
+            "shrink-0 mr-2 text-[18px]  min-w-[26px]",
+            !itemFavourite && "group-hover:hidden"
+          )}
+        >
           {documentIcon}
         </div>
       ) : (
         <Icon
           className={cn(
             "shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground  min-w-[26px]",
-            !!id && "group-hover:hidden"
+            !!id && !itemFavourite && "group-hover:hidden"
           )}
         />
       )}
@@ -200,8 +207,15 @@ const Item = ({
                 <p>Delete</p>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <div className="text-xs text-muted-foreground p-2">
-                Last edited by: {user?.username}
+              <div className="text-xs text-muted-foreground p-2 flex flex-col items-start gap-2">
+                <p>Last edited by: {user?.username}</p>
+                <p>
+                  {moment(
+                    doc.lastEdited?.time
+                      ? doc.lastEdited?.time
+                      : doc._creationTime
+                  ).format(FORMAT_TIME_FULLY)}
+                </p>
               </div>
             </DropdownMenuContent>
           </DropdownMenu>

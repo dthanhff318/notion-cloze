@@ -66,6 +66,7 @@ const DocumentFavourite = ({ parentDocumentId, level, data }: Props) => {
       {documents?.map((doc) => (
         <div key={doc._id}>
           <Item
+            doc={doc}
             id={doc._id}
             label={doc.title}
             icon={FileIcon}
@@ -76,7 +77,6 @@ const DocumentFavourite = ({ parentDocumentId, level, data }: Props) => {
             onExpand={() => onExpand(doc._id)}
             expanded={expanded[doc._id]}
             itemFavourite={true}
-            isFavourite={doc.isFavourite}
           />
         </div>
       ))}

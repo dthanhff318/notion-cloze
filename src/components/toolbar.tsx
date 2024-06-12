@@ -8,6 +8,7 @@ import { Button } from "~@/components/ui/button";
 import { useCoverImage } from "~@/hooks/useCoverImage";
 import { api } from "~convex/_generated/api";
 import { Doc } from "~convex/_generated/dataModel";
+import { useUser } from "@clerk/clerk-react";
 
 type Props = {
   initialData: Doc<"documents">;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 const Toolbar = ({ initialData, preview }: Props) => {
+  const { user } = useUser();
   const inputRef = useRef<ElementRef<"textarea">>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [value, setValue] = useState<string>(initialData.title);
@@ -43,6 +45,10 @@ const Toolbar = ({ initialData, preview }: Props) => {
     update({
       id: initialData._id,
       title: value,
+      lastEdited: {
+        user: user?.id ?? "",
+        time: Date.now(),
+      },
     });
   };
 

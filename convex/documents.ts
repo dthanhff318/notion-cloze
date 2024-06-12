@@ -221,6 +221,12 @@ export const update = mutation({
     icon: v.optional(v.string()),
     isPublished: v.optional(v.boolean()),
     isFavourite: v.optional(v.boolean()),
+    lastEdited: v.optional(
+      v.object({
+        user: v.string(),
+        time: v.number(),
+      })
+    ),
   },
   handler: async (ctx, args) => {
     const identity = await checkAuth(ctx);
