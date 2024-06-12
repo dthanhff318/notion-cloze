@@ -51,7 +51,7 @@ const Trashbox = () => {
     });
 
     if (params.documentId === docId) {
-        router.push(APP_ROUTE.DOCUMENTS);
+      router.push(APP_ROUTE.DOCUMENTS);
     }
   };
 

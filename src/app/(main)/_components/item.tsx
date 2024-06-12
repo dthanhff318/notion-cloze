@@ -31,7 +31,7 @@ import { APP_ROUTE } from "~@/constanst/router";
 import { FORMAT_TIME_FULLY } from "~@/constanst/time";
 import moment from "moment";
 interface Props {
-  doc: Doc<"documents">;
+  doc?: Doc<"documents">;
   id?: Id<"documents">;
   documentIcon?: string;
   active?: boolean;
@@ -111,7 +111,7 @@ const Item = ({
     event.stopPropagation();
     if (!id) return;
 
-    const promise = update({ id, isFavourite: !doc.isFavourite }).then(() => {
+    const promise = update({ id, isFavourite: !doc?.isFavourite }).then(() => {
       router.push(APP_ROUTE.DOCUMENTS);
     });
     toast.promise(promise, {
@@ -211,9 +211,9 @@ const Item = ({
                 <p>Last edited by: {user?.username}</p>
                 <p>
                   {moment(
-                    doc.lastEdited?.time
-                      ? doc.lastEdited?.time
-                      : doc._creationTime
+                    doc?.lastEdited?.time
+                      ? doc?.lastEdited?.time
+                      : doc?._creationTime
                   ).format(FORMAT_TIME_FULLY)}
                 </p>
               </div>

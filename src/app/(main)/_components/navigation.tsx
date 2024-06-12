@@ -151,7 +151,7 @@ const Navigation = () => {
           <Item onClick={settings.onOpen} label="Settings" icon={Settings} />
           <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
         </div>
-        <div className="mt-4 overflow-y-auto px-2">
+        <div className="mt-4 overflow-y-auto px-2 flex-1">
           <DocumentGroup />
           {/* <Item onClick={handleCreate} icon={Plus} label="New note" /> */}
         </div>
