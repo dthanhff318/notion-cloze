@@ -14,7 +14,7 @@ import React from "react";
 import { Skeleton } from "~@/components/ui/skeleton";
 import { cn } from "~@/lib/utils";
 import { Doc, Id } from "~convex/_generated/dataModel";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "~convex/_generated/api";
 import { toast } from "sonner";
 import {
@@ -121,6 +121,13 @@ const Item = ({
     });
   };
 
+  const getLastEdit = (id: Id<"documents">) => {
+    const lastEdited = useQuery(api.documents.getLastEdited, {
+      docId: id,
+    });
+    console.log(lastEdited);
+  };
+
   return (
     <div
       onClick={onClick}
@@ -167,7 +174,12 @@ const Item = ({
       {!!id && (
         <div className="ml-auto flex items-center gap-x-2">
           <DropdownMenu>
-            <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+            <DropdownMenuTrigger
+              asChild
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
               <div
                 role="button"
                 className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"

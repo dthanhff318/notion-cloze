@@ -24,7 +24,10 @@ export default defineSchema({
     .index("by_user_parent", ["userId", "parentDocument"]),
   // User
   users: defineTable({
-    clerkUser: v.any(),
-    color: v.string(),
-  }).index("by_clerk_id", ["clerkUser.id"]),
+    clerkId: v.string(),
+    firstName: v.optional(v.string()),
+    lastName: v.optional(v.string()),
+    email: v.string(),
+    imageUrl: v.optional(v.string()),
+  }).index("by_clerk_id", ["clerkId"]),
 });

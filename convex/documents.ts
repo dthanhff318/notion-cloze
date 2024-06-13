@@ -303,3 +303,26 @@ export const getPreviewById = query({
     throw new Error("Not found");
   },
 });
+
+export const getLastEdited = query({
+  args: {
+    docId: v.id("documents"),
+  },
+  handler: async (ctx, args) => {
+    await checkAuth(ctx);
+    const document = await ctx.db.get(args.docId);
+    if (!document) {
+      throw new Error("Not found");
+    }
+    if (document.lastEdited?.user) {
+      const user = await ctx.db
+        .query("users")
+        .withIndex("by_clerk_id", (q) =>
+          q.eq("clerkId", document.lastEdited?.user ?? "")
+        )
+        .unique();
+      return user;
+    }
+    return null;
+  },
+});
