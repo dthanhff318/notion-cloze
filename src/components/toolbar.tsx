@@ -12,10 +12,10 @@ import { useUser } from "@clerk/clerk-react";
 
 type Props = {
   initialData: Doc<"documents">;
-  preview?: boolean;
+  allowEdit?: boolean;
 };
 
-const Toolbar = ({ initialData, preview }: Props) => {
+const Toolbar = ({ initialData, allowEdit = true }: Props) => {
   const { user } = useUser();
   const inputRef = useRef<ElementRef<"textarea">>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -27,7 +27,7 @@ const Toolbar = ({ initialData, preview }: Props) => {
   const coverImage = useCoverImage();
 
   const enableInput = () => {
-    if (preview) return;
+    if (!allowEdit) return;
     setIsEditing(true);
     setTimeout(() => {
       setValue(initialData.title);
@@ -69,9 +69,10 @@ const Toolbar = ({ initialData, preview }: Props) => {
   const onRemoveIcon = () => {
     removeIcon({ id: initialData._id });
   };
+
   return (
     <div className="pl-[54px] group relative">
-      {!!initialData.icon && !preview && (
+      {!!initialData.icon && allowEdit && (
         <div className="flex items-center gap-x-2 group/icon pt-6">
           <IconPicker onChange={onIconSelect}>
             <p className="text-6xl hover:opacity-75 transition">
@@ -88,11 +89,11 @@ const Toolbar = ({ initialData, preview }: Props) => {
           </Button>
         </div>
       )}
-      {!!initialData.icon && preview && (
+      {!!initialData.icon && !allowEdit && (
         <p className="text-6xl pt-6">{initialData.icon}</p>
       )}
       <div className="opacity-0 group-hover:opacity-100 flex items-center gap-x-1 py-4">
-        {!initialData.icon && !preview && (
+        {!initialData.icon && allowEdit && (
           <IconPicker asChild onChange={onIconSelect}>
             <Button
               className="text-muted-foreground text-xs"
@@ -104,7 +105,7 @@ const Toolbar = ({ initialData, preview }: Props) => {
             </Button>
           </IconPicker>
         )}
-        {!initialData.coverImage && !preview && (
+        {!initialData.coverImage && allowEdit && (
           <Button
             className="text-muted-foreground text-xs"
             variant="outline"
@@ -116,7 +117,7 @@ const Toolbar = ({ initialData, preview }: Props) => {
           </Button>
         )}
       </div>
-      {isEditing && !preview ? (
+      {isEditing && allowEdit ? (
         <ReactTextareaAutosize
           ref={inputRef}
           onBlur={disableInput}

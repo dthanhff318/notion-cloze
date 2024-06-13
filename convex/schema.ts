@@ -13,6 +13,7 @@ export default defineSchema({
     icon: v.optional(v.string()),
     isPublished: v.boolean(),
     isFavourite: v.optional(v.boolean()),
+    allowEdit: v.optional(v.boolean()),
     lastEdited: v.optional(
       v.object({
         user: v.string(),

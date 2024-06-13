@@ -1,4 +1,6 @@
 "use client";
+import { useUser } from "@clerk/clerk-react";
+import { useMutation } from "convex/react";
 import {
   Archive,
   ChevronDown,
@@ -7,29 +9,26 @@ import {
   MoreHorizontal,
   Plus,
   Star,
-  StarOff,
-  Trash,
+  StarOff
 } from "lucide-react";
+import moment from "moment";
+import { useRouter } from "next/navigation";
 import React from "react";
-import { Skeleton } from "~@/components/ui/skeleton";
-import { cn } from "~@/lib/utils";
-import { Doc, Id } from "~convex/_generated/dataModel";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "~convex/_generated/api";
 import { toast } from "sonner";
 import {
   DropdownMenu,
-  DropdownMenuSeparator,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~@/components/ui/dropdown-menu";
-import { useUser } from "@clerk/clerk-react";
-import { useRouter } from "next/navigation";
-import { replacePathParams } from "~@/utils/router";
+import { Skeleton } from "~@/components/ui/skeleton";
 import { APP_ROUTE } from "~@/constanst/router";
 import { FORMAT_TIME_FULLY } from "~@/constanst/time";
-import moment from "moment";
+import { cn } from "~@/lib/utils";
+import { replacePathParams } from "~@/utils/router";
+import { api } from "~convex/_generated/api";
+import { Doc, Id } from "~convex/_generated/dataModel";
 interface Props {
   doc?: Doc<"documents">;
   id?: Id<"documents">;
@@ -121,12 +120,7 @@ const Item = ({
     });
   };
 
-  const getLastEdit = (id: Id<"documents">) => {
-    const lastEdited = useQuery(api.documents.getLastEdited, {
-      docId: id,
-    });
-    console.log(lastEdited);
-  };
+
 
   return (
     <div

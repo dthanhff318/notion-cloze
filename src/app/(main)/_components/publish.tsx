@@ -8,6 +8,7 @@ import { useOrigin } from "~@/hooks/useOrigin";
 import { api } from "~convex/_generated/api";
 import { Doc } from "~convex/_generated/dataModel";
 import { Switch } from "~@/components/ui/switch";
+import Link from "next/link";
 
 type Props = {
   initialData: Doc<"documents">;
@@ -44,6 +45,15 @@ const Publish = ({ initialData }: Props) => {
     }, 1500);
   };
 
+  const toggleAllowEdit = async () => {
+    await update({
+      id: initialData._id,
+      allowEdit: !initialData.allowEdit,
+    }).then(() => {
+      !initialData.allowEdit && toast.success("Allow editting this note.");
+    });
+  };
+
   return (
     <>
       {initialData.isPublished ? (
@@ -73,7 +83,10 @@ const Publish = ({ initialData }: Props) => {
           <div className="mt-2">
             <div className="flex justify-between">
               <p className="text-xs">Allow editing</p>
-              <Switch />
+              <Switch
+                checked={initialData.allowEdit}
+                onClick={toggleAllowEdit}
+              />
             </div>
           </div>
           <div className="flex gap-2">
@@ -88,12 +101,14 @@ const Publish = ({ initialData }: Props) => {
             <Button
               size="sm"
               disabled={isSubmitting}
-              //   onClick={onPublish}
               variant="outline"
               className="w-full text-xs space-x-1"
+              asChild
             >
-              <Globe className="h-4 w-4 text-sky-500 mr-1" />
-              View site
+              <a href={url} target="_blank">
+                <Globe className="h-4 w-4 text-sky-500 mr-1" />
+                View site
+              </a>
             </Button>
           </div>
         </div>

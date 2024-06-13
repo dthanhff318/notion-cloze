@@ -96,8 +96,23 @@ export const getFavouriteDocs = query({
       .query("documents")
       .withIndex("by_user", (q) => q.eq("userId", userId))
       .filter((q) => q.eq(q.field("isFavourite"), true))
+      .filter((q) => q.eq(q.field("isArchived"), false))
       .order("desc")
       .collect();
+
+    const users = documents
+      .filter((doc) => !!doc.lastEdited)
+      .map((doc) =>
+        ctx.db
+          .query("users")
+          .withIndex("by_clerk_id", (q) =>
+            q.eq("clerkId", doc.lastEdited?.user ?? "")
+          )
+      );
+    const infoUser = Promise.all(users).then((res) => {
+      console.log(res);
+    });
+
     return documents;
   },
 });
@@ -221,6 +236,7 @@ export const update = mutation({
     icon: v.optional(v.string()),
     isPublished: v.optional(v.boolean()),
     isFavourite: v.optional(v.boolean()),
+    allowEdit: v.optional(v.boolean()),
     lastEdited: v.optional(
       v.object({
         user: v.string(),
