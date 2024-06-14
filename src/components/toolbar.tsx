@@ -63,6 +63,10 @@ const Toolbar = ({ initialData, allowEdit = true }: Props) => {
     update({
       id: initialData._id,
       icon,
+      lastEdited: {
+        user: user?.id ?? "",
+        time: Date.now(),
+      },
     });
   };
 

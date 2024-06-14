@@ -1,13 +1,45 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, QueryCtx } from "./_generated/server";
 import { Doc, Id } from "./_generated/dataModel";
 
-const checkAuth = async (ctx: any) => {
+const checkAuth = async (ctx: QueryCtx) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) {
     throw new Error("Not authenticated");
   }
   return identity;
+};
+
+const queryInfoUserLastEdit = async (
+  ctx: QueryCtx,
+  documents: Doc<"documents">[]
+) => {
+  // Get info user last edit
+  const users = documents
+    .filter((doc) => !!doc.lastEdited)
+    .map((doc) =>
+      ctx.db
+        .query("users")
+        .withIndex("by_clerk_id", (q) =>
+          q.eq("clerkId", doc.lastEdited?.user ?? "")
+        )
+        .unique()
+    );
+  let infoUser: (Doc<"users"> | null)[] = [];
+  await Promise.all(users).then((res) => {
+    infoUser = res;
+  });
+  const results = documents.map((e) => {
+    if (e.lastEdited?.user) {
+      const user = infoUser.find((x) => x?.clerkId === e.lastEdited?.user);
+      return {
+        ...e,
+        lastEdited: { ...e.lastEdited, user },
+      };
+    }
+    return e;
+  });
+  return results;
 };
 
 export const archive = mutation({
@@ -84,7 +116,8 @@ export const getSidebar = query({
       .filter((q) => q.eq(q.field("isArchived"), false))
       .order("desc")
       .collect();
-    return documents;
+    const results = queryInfoUserLastEdit(ctx, documents);
+    return results;
   },
 });
 
@@ -100,20 +133,8 @@ export const getFavouriteDocs = query({
       .order("desc")
       .collect();
 
-    const users = documents
-      .filter((doc) => !!doc.lastEdited)
-      .map((doc) =>
-        ctx.db
-          .query("users")
-          .withIndex("by_clerk_id", (q) =>
-            q.eq("clerkId", doc.lastEdited?.user ?? "")
-          )
-      );
-    const infoUser = Promise.all(users).then((res) => {
-      console.log(res);
-    });
-
-    return documents;
+    const results = queryInfoUserLastEdit(ctx, documents);
+    return results;
   },
 });
 

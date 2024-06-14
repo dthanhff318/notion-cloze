@@ -15,6 +15,8 @@ import {
   CommandItem,
   CommandList,
 } from "~@/components/ui/command";
+import { replacePathParams } from "~@/utils/router";
+import { APP_ROUTE } from "~@/constanst/router";
 
 const SearchCommand = () => {
   const { user } = useUser();
@@ -27,7 +29,7 @@ const SearchCommand = () => {
   const onClose = useSearch((store) => store.onClose);
 
   const onSelect = (id: string) => {
-    router.push(`/document/${id}`);
+    router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id }));
     onClose();
   };
 
@@ -52,7 +54,7 @@ const SearchCommand = () => {
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <CommandInput placeholder={`Search ${user?.username} notioz`} />
+      <CommandInput placeholder={`Search...`} />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Documents">

@@ -1,7 +1,7 @@
 "use client";
 
+import { useUser } from "@clerk/clerk-react";
 import { useMutation, useQuery } from "convex/react";
-import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import Cover from "~@/components/cover";
@@ -9,7 +9,6 @@ import Toolbar from "~@/components/toolbar";
 import { Skeleton } from "~@/components/ui/skeleton";
 import { api } from "~convex/_generated/api";
 import { Id } from "~convex/_generated/dataModel";
-import Head from "next/head";
 type Props = {
   params: {
     documentId: Id<"documents">;
@@ -17,6 +16,7 @@ type Props = {
 };
 
 const DocumentIdPage = ({ params }: Props) => {
+  const { user } = useUser();
   const Editor = useMemo(
     () => dynamic(() => import("~@/components/editor"), { ssr: false }),
     []
@@ -31,6 +31,10 @@ const DocumentIdPage = ({ params }: Props) => {
     update({
       id: params.documentId,
       content,
+      lastEdited: {
+        user: user?.id ?? "",
+        time: Date.now(),
+      },
     });
   };
   if (document === undefined) {

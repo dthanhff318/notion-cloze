@@ -9,7 +9,7 @@ import {
   MoreHorizontal,
   Plus,
   Star,
-  StarOff
+  StarOff,
 } from "lucide-react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
@@ -30,7 +30,12 @@ import { replacePathParams } from "~@/utils/router";
 import { api } from "~convex/_generated/api";
 import { Doc, Id } from "~convex/_generated/dataModel";
 interface Props {
-  doc?: Doc<"documents">;
+  doc?: Omit<Doc<"documents">, "lastEdited"> & {
+    lastEdited?: {
+      time: number;
+      user: any;
+    };
+  };
   id?: Id<"documents">;
   documentIcon?: string;
   active?: boolean;
@@ -119,8 +124,6 @@ const Item = ({
       error: "Failed to action.",
     });
   };
-
-
 
   return (
     <div
@@ -214,7 +217,12 @@ const Item = ({
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <div className="text-xs text-muted-foreground p-2 flex flex-col items-start gap-2">
-                <p>Last edited by: {user?.username}</p>
+                <p>
+                  Last edited by:{" "}
+                  {doc?.lastEdited?.user?.lastName ??
+                    user?.username ??
+                    user?.lastName}
+                </p>
                 <p>
                   {moment(
                     doc?.lastEdited?.time

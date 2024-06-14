@@ -16,6 +16,8 @@ import { Skeleton } from "~@/components/ui/skeleton";
 import { api } from "~convex/_generated/api";
 import { Doc } from "~convex/_generated/dataModel";
 import { APP_ROUTE } from "~@/constanst/router";
+import moment from "moment";
+import { FORMAT_TIME_FULLY } from "~@/constanst/time";
 
 type Props = {
   document: Doc<"documents">;
@@ -75,7 +77,7 @@ const Menu = ({ document }: Props) => {
         )}
         <DropdownMenuSeparator />
         <div className="text-xs text-muted-foreground p-2">
-          Last edit by: {user?.username}
+          Created at: {moment(document._creationTime).format(FORMAT_TIME_FULLY)}
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
