@@ -8,7 +8,7 @@ const SettingsModal = () => {
   const settings = useSettings();
   return (
     <Dialog open={settings.isOpen} onOpenChange={settings.onClose}>
-      <DialogContent className="max-w-[1150px] w-[80vw] h-[700px] block p-0">
+      <DialogContent className="max-w-[1150px] w-[80vw] max-h-[700px] h-[80vh] block p-0">
         <div className="mt-4 h-full">
           <SettingsWrap />
         </div>

@@ -1,13 +1,20 @@
 import React from "react";
 import { Avatar, AvatarImage } from "~@/components/ui/avatar";
-import { useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { Input } from "~@/components/ui/input";
 import { getUser } from "~@/app/api/clerk/route";
+import axios from "axios";
 
 const EditProfile = () => {
   const { user } = useUser();
+  const { getToken } = useAuth();
   const abc = async () => {
-    const res = await getUser();
+    const res = await axios.get(
+      "https://quick-leopard-17.clerk.accounts.dev/v1/me",
+      {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      }
+    );
     console.log(res.data);
   };
   abc();

@@ -49,6 +49,7 @@ const SettingsWrap = () => {
             const Icon = e.icon;
             return (
               <div
+                key={e.key}
                 role="button"
                 className={cn(
                   "flex items-center text-muted-foreground text-sm hover:bg-primary/10 px-4 py-1 rounded-sm font-medium",

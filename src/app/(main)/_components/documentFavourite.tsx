@@ -32,7 +32,6 @@ const DocumentFavourite = ({ parentDocumentId, level, data }: Props) => {
   const documents = useQuery(api.documents.getFavouriteDocs) as
     | Doc<"documents">[]
     | undefined;
-  console.log(documents);
 
   const onRedirect = (docId: string) => {
     router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }));
