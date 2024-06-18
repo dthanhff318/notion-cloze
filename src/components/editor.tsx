@@ -31,13 +31,15 @@ const Editor = ({ initialContent, editable = true, onChange }: Props) => {
   });
 
   return (
-    <BlockNoteView
-      editor={editor}
-      editable={editable}
-      theme={resolvedTheme === "dark" ? "dark" : "light"}
-      onChange={() => onChange(JSON.stringify(editor.document))}
-      {...({} as any)}
-    />
+    <div className="z-9999999999999">
+      <BlockNoteView
+        editor={editor}
+        editable={editable}
+        theme={resolvedTheme === "dark" ? "dark" : "light"}
+        onChange={() => onChange(JSON.stringify(editor.document))}
+        {...({} as any)}
+      />
+    </div>
   );
 };
 

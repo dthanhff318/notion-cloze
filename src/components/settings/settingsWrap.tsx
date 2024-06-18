@@ -29,7 +29,7 @@ const SettingsWrap = () => {
   const [tab, setTab] = useState<ListItemKeys>("My account");
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full pt-4">
       <div className="flex flex-col shrink-0 w-[230px] gap-1 border-solid border-r-2 border-primary/10 px-1 h-full space-y-1 p">
         <div className="flex gap-2 items-center pl-1">
           <Avatar className="h-7 w-7">

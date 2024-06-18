@@ -16,12 +16,13 @@ const EditProfile = () => {
   };
 
   const onKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.stopPropagation();
     if (e.key === "Enter") {
       await user?.update({
         lastName: name,
       });
       nameRef.current?.blur();
-      e.preventDefault()
+      e.preventDefault();
     }
   };
 
