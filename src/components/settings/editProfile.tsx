@@ -21,6 +21,7 @@ const EditProfile = () => {
         lastName: name,
       });
       nameRef.current?.blur();
+      e.preventDefault()
     }
   };
 
