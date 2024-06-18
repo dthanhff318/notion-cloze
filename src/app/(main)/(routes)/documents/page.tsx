@@ -6,9 +6,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "~@/components/ui/button";
+import { APP_ROUTE } from "~@/constanst/router";
 import { replacePathParams } from "~@/utils/router";
 import { api } from "~convex/_generated/api";
-import { APP_ROUTE } from "~@/constanst/router";
 
 const DocumentsPage = () => {
   const { user } = useUser();
@@ -42,9 +42,7 @@ const DocumentsPage = () => {
         alt="empty"
         className="dark:block hidden"
       />
-      <h2 className="text-lg font-medium">
-        Welcome to {user?.username}&apos;s Notioz
-      </h2>
+      <h2 className="text-lg font-medium">Welcome to tizZote</h2>
       <Button onClick={onCreate}>
         <PlusCircle className="h-4 w-4 mr-2" />
         Create a note

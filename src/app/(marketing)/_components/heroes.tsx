@@ -9,13 +9,13 @@ export const Heroes = () => {
             src="/document.webp"
             fill
             className="object-contain dark:hidden"
-            alt="Notioz"
+            alt="tizZote"
           />
           <Image
             src="/document-dark.png"
             fill
             className="object-contain dark:block hidden"
-            alt="Notioz"
+            alt="tizZote"
           />
         </div>
       </div>

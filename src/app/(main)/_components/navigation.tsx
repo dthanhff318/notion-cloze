@@ -6,7 +6,7 @@ import {
   PlusCircle,
   Search,
   Settings,
-  Trash,
+  Trash
 } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { ElementRef, useEffect, useRef, useState } from "react";
@@ -16,7 +16,7 @@ import Navbar from "~@/app/(main)/_components/navbar";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "~@/components/ui/popover";
 import { APP_ROUTE } from "~@/constanst/router";
 import { useSearch } from "~@/hooks/useSearch";
@@ -36,13 +36,10 @@ const Navigation = () => {
   const params = useParams();
   const search = useSearch();
   const settings = useSettings();
-
   const create = useMutation(api.documents.create);
-
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
-
   const [isReset, setIsReset] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile);
 

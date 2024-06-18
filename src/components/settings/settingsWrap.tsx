@@ -36,9 +36,7 @@ const SettingsWrap = () => {
             <AvatarImage src={user?.imageUrl} />
           </Avatar>
           <div>
-            <p className="font-medium text-sm">
-              {user?.firstName + " " + user?.lastName}
-            </p>
+            <p className="font-medium text-sm">{user?.lastName}</p>
             <p className="text-muted-foreground text-xs">
               {user?.emailAddresses[0].emailAddress}
             </p>

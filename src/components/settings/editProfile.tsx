@@ -1,23 +1,29 @@
-import React from "react";
+import { useUser } from "@clerk/clerk-react";
+import { CircleCheck } from "lucide-react";
+import { useRef, useState } from "react";
 import { Avatar, AvatarImage } from "~@/components/ui/avatar";
-import { useAuth, useUser } from "@clerk/clerk-react";
 import { Input } from "~@/components/ui/input";
-import { getUser } from "~@/app/api/clerk/route";
-import axios from "axios";
 
 const EditProfile = () => {
   const { user } = useUser();
-  const { getToken } = useAuth();
-  const abc = async () => {
-    const res = await axios.get(
-      "https://quick-leopard-17.clerk.accounts.dev/v1/me",
-      {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      }
-    );
-    console.log(res.data);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const [name, setName] = useState<string>(user?.lastName ?? "");
+
+  const updateUser = async () => {
+    await user?.update({
+      lastName: name,
+    });
   };
-  abc();
+
+  const onKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      await user?.update({
+        lastName: name,
+      });
+      nameRef.current?.blur();
+    }
+  };
+
   return (
     <div>
       <div className="flex gap-2 items-center">
@@ -26,7 +32,23 @@ const EditProfile = () => {
         </Avatar>
         <div className="space-y-1">
           <p className="text-muted-foreground text-xs">Preferred name</p>
-          <Input type="text" className="h-7 px-2  bg-secondary" />
+          <div className="flex items-center">
+            <Input
+              type="text"
+              className="h-7 px-2 bg-secondary w-[170px]"
+              ref={nameRef}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onKeyDown={onKeyDown}
+            />
+            {name !== user?.lastName && (
+              <CircleCheck
+                role="button"
+                className="h-7 w-7 ml-4 text-muted-foreground hover:text-primary"
+                onClick={updateUser}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
