@@ -22,8 +22,8 @@ export const updateOrCreateUser = mutation({
   args: { clerkUser: v.any() }, // no runtime validation, trust Clerk
   handler: async (ctx, args) => {
     const { clerkUser } = args;
-    const userRecord = await userQuery(clerkUser.id, ctx);
-    if (userRecord === null) {
+    const userRecord = await userQuery(clerkUser.clerkId, ctx);
+    if (!userRecord) {
       await ctx.db.insert("users", clerkUser);
     } else {
       await ctx.db.patch(userRecord._id, clerkUser);
