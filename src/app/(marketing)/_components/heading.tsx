@@ -7,16 +7,20 @@ import { Spinner } from "~@/components/spinner";
 import { SignInButton } from "@clerk/clerk-react";
 import Link from "next/link";
 import { APP_ROUTE } from "~@/constanst/router";
+import { useTranslations } from "next-intl";
+
 export const Heading = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
+  const t = useTranslations();
+
   return (
     <div className="max-w-3xl space-y-4">
       <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold">
-        Note your Ideas, Task, & Plans. Unified. Welcome to{" "}
+        {t("Marketing.Title")}{" "}
         <span className="underline">tizZote</span>
       </h1>
       <h3 className="text-base sm:text-xl md:text-2xl font-medium">
-        tizZote is a tool for managing and sharing task, <br />
+        tizZote is a tool for managing and sharing note, <br />
         supporting teamwork, and it's FREE for everyone
       </h3>
       {isLoading && (
