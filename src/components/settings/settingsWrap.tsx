@@ -1,11 +1,12 @@
-import { Label } from "@radix-ui/react-dropdown-menu";
-import { CircleUserRound, SlidersHorizontal } from "lucide-react";
+import { CircleUserRound, Globe, SlidersHorizontal } from "lucide-react";
 import React, { useState } from "react";
 import { ModeToggle } from "../modeToggle";
 import { cn } from "~@/lib/utils";
 import { Avatar, AvatarImage } from "~@/components/ui/avatar";
+import { Label } from "~@/components/ui/label";
 import { useUser } from "@clerk/clerk-react";
 import EditProfile from "./editProfile";
+import Language from "./language";
 
 const SettingsWrap = () => {
   const { user } = useUser();
@@ -21,6 +22,11 @@ const SettingsWrap = () => {
       title: "My settings",
       key: "My settings",
     },
+    {
+      icon: Globe,
+      title: "Language & region",
+      key: "Language & region",
+    },
   ] as const;
 
   const selectTab = (key: ListItemKeys) => {
@@ -33,7 +39,7 @@ const SettingsWrap = () => {
       <div className="flex flex-col shrink-0 w-[230px] gap-1 border-solid border-r-2 border-primary/10 px-1 h-full space-y-1 p">
         <div className="flex gap-2 items-center pl-1">
           <Avatar className="h-7 w-7">
-            <AvatarImage src={user?.imageUrl} />
+            <AvatarImage className="object-cover" src={user?.imageUrl} />
           </Avatar>
           <div>
             <p className="font-medium text-sm">{user?.lastName}</p>
@@ -78,6 +84,7 @@ const SettingsWrap = () => {
             <ModeToggle />
           </div>
         )}
+        {tab === "Language & region" && <Language />}
       </div>
     </div>
   );

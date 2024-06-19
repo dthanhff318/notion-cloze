@@ -7,6 +7,7 @@ import { Input } from "~@/components/ui/input";
 const EditProfile = () => {
   const { user } = useUser();
   const nameRef = useRef<HTMLInputElement>(null);
+  const uploadRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState<string>(user?.lastName ?? "");
 
   const updateUser = async () => {
@@ -26,31 +27,47 @@ const EditProfile = () => {
     }
   };
 
+  const onUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (!fileList) return;
+    await user?.setProfileImage({
+      file: fileList[0],
+    });
+  };
+
+  const triggerClick = () => {
+    uploadRef.current?.click();
+  };
+
   return (
-    <div>
-      <div className="flex gap-2 items-center">
-        <Avatar className="h-14 w-14">
-          <AvatarImage src={user?.imageUrl} />
-        </Avatar>
-        <div className="space-y-1">
-          <p className="text-muted-foreground text-xs">Preferred name</p>
-          <div className="flex items-center">
-            <Input
-              type="text"
-              className="h-7 px-2 bg-secondary w-[170px]"
-              ref={nameRef}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              onKeyDown={onKeyDown}
+    <div className="flex gap-2 items-center">
+      <input
+        className="hidden"
+        type="file"
+        onInput={onUpload}
+        ref={uploadRef}
+      />
+      <Avatar role="button" className="h-14 w-14" onClick={triggerClick}>
+        <AvatarImage className="object-cover" src={user?.imageUrl} />
+      </Avatar>
+      <div className="space-y-1">
+        <p className="text-muted-foreground text-xs">Preferred name: </p>
+        <div className="flex items-center">
+          <Input
+            type="text"
+            className="h-7 px-2 bg-secondary w-[170px]"
+            ref={nameRef}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={onKeyDown}
+          />
+          {name !== user?.lastName && (
+            <CircleCheck
+              role="button"
+              className="h-7 w-7 ml-4 text-muted-foreground hover:text-primary"
+              onClick={updateUser}
             />
-            {name !== user?.lastName && (
-              <CircleCheck
-                role="button"
-                className="h-7 w-7 ml-4 text-muted-foreground hover:text-primary"
-                onClick={updateUser}
-              />
-            )}
-          </div>
+          )}
         </div>
       </div>
     </div>

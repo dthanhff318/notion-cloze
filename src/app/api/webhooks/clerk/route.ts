@@ -71,6 +71,21 @@ export async function POST(req: Request) {
     };
     await convex.mutation(api.users.updateOrCreateUser, { clerkUser: user });
   }
+  if (evt.type === "user.updated") {
+    const { id, email_addresses, last_name, image_url } = evt.data;
+    if (!id) {
+      return new Response("Error occurred -- Missing data", {
+        status: 400,
+      });
+    }
+    const user = {
+      clerkId: id,
+      email: email_addresses[0].email_address,
+      ...(last_name ? { lastName: last_name } : {}),
+      ...(image_url ? { imageUrl: image_url } : {}),
+    };
+    await convex.mutation(api.users.updateOrCreateUser, { clerkUser: user });
+  }
   if (evt.type === "user.deleted") {
     console.log("userId:", evt.data);
   }
