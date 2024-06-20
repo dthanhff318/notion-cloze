@@ -2,7 +2,8 @@
 
 import { useQuery } from "convex/react";
 import { FileIcon } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "~@/navigation";
 import { useState } from "react";
 import { cn } from "~@/lib/utils";
 import { api } from "~convex/_generated/api";
@@ -10,6 +11,7 @@ import { Doc, Id } from "~convex/_generated/dataModel";
 import Item from "./item";
 import { replacePathParams } from "~@/utils/router";
 import { APP_ROUTE } from "~@/constanst/router";
+import { useLocale } from "next-intl";
 
 interface Props {
   parentDocumentId?: Id<"documents">;
@@ -17,11 +19,11 @@ interface Props {
   data?: Doc<"documents">[];
 }
 
-const DocumentList = ({ parentDocumentId, level, data }: Props) => {
+const DocumentFavourite = ({ parentDocumentId, level, data }: Props) => {
   const params = useParams();
   const router = useRouter();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-
+  const locale = useLocale();
   const onExpand = (docId: string) => {
     setExpanded((prev) => ({
       ...prev,
@@ -29,12 +31,14 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
     }));
   };
 
-  const documents = useQuery(api.documents.getSidebar, {
-    parentDocument: parentDocumentId,
-  }) as Doc<"documents">[] | undefined;
+  const documents = useQuery(api.documents.getFavouriteDocs) as
+    | Doc<"documents">[]
+    | undefined;
 
   const onRedirect = (docId: string) => {
-    router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }));
+    router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }), {
+      locale,
+    });
   };
 
   if (documents === undefined) {
@@ -54,7 +58,7 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
   return (
     <>
       <p
-        style={{ paddingLeft: level ? `${level * 12 + 25}px` : `${12}px` }}
+        style={{ paddingLeft: `12px` }}
         className={cn(
           "hidden text-sm font-medium text-muted-foreground py-1",
           expanded && "last:block",
@@ -76,14 +80,12 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
             onClick={() => onRedirect(doc._id)}
             onExpand={() => onExpand(doc._id)}
             expanded={expanded[doc._id]}
+            itemFavourite={true}
           />
-          {expanded[doc._id] && (
-            <DocumentList level={(level ?? 0) + 1} parentDocumentId={doc._id} />
-          )}
         </div>
       ))}
     </>
   );
 };
 
-export default DocumentList;
+export default DocumentFavourite;

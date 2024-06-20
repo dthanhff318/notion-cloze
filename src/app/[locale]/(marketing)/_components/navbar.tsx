@@ -7,11 +7,13 @@ import { cn } from "~@/lib/utils";
 import Logo from "./logo";
 import { Button } from "~@/components/ui/button";
 import { Spinner } from "~@/components/spinner";
-import Link from "next/link";
 import { APP_ROUTE } from "~@/constanst/router";
+import { useLocale } from "next-intl";
+import { Link } from "~@/navigation";
 
 const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
+  const locale = useLocale();
   const scrolled = useScrollTop();
   return (
     <div
@@ -38,7 +40,9 @@ const Navbar = () => {
         {isAuthenticated && !isLoading && (
           <>
             <Button variant="ghost" size="sm" asChild>
-              <Link href={APP_ROUTE.DOCUMENTS}>Start tizZote</Link>
+              <Link href={APP_ROUTE.DOCUMENTS} locale={locale}>
+                Start tizZote
+              </Link>
             </Button>
             <UserButton afterSignOutUrl="/" />
           </>

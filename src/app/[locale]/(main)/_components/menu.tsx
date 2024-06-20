@@ -53,7 +53,7 @@ const Menu = ({ document }: Props) => {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Button size="sm" variant="ghost">
           <MoreHorizontal className="h-4 w-4" />
         </Button>

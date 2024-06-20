@@ -3,10 +3,10 @@
 import { useQuery } from "convex/react";
 import { MenuIcon } from "lucide-react";
 import { useParams } from "next/navigation";
-import Banner from "~@/app/(main)/_components/banner";
-import Menu from "~@/app/(main)/_components/menu";
-import Share from "~@/app/(main)/_components/share";
-import Title from "~@/app/(main)/_components/title";
+import Banner from "~@/app/[locale]/(main)/_components/banner";
+import Menu from "~@/app/[locale]/(main)/_components/menu";
+import Share from "~@/app/[locale]/(main)/_components/share";
+import Title from "~@/app/[locale]/(main)/_components/title";
 import { api } from "~convex/_generated/api";
 import { Id } from "~convex/_generated/dataModel";
 

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { File } from "lucide-react";
 import { useQuery } from "convex/react";
 import { useUser } from "@clerk/clerk-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "~@/navigation";
 import { api } from "~convex/_generated/api";
 import { useSearch } from "~@/hooks/useSearch";
 import {
@@ -17,10 +17,11 @@ import {
 } from "~@/components/ui/command";
 import { replacePathParams } from "~@/utils/router";
 import { APP_ROUTE } from "~@/constanst/router";
+import { useLocale } from "next-intl";
 
 const SearchCommand = () => {
-  const { user } = useUser();
   const router = useRouter();
+  const locale = useLocale();
   const documents = useQuery(api.documents.getSearch);
   const [isMounted, setIsMouted] = useState(false);
 
@@ -29,7 +30,9 @@ const SearchCommand = () => {
   const onClose = useSearch((store) => store.onClose);
 
   const onSelect = (id: string) => {
-    router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id }));
+    router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id }), {
+      locale,
+    });
     onClose();
   };
 
