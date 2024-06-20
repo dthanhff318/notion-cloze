@@ -6,17 +6,18 @@ import {
   PlusCircle,
   Search,
   Settings,
-  Trash
+  Trash,
 } from "lucide-react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
+import { useRouter } from "~@/navigation";
 import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";
-import Navbar from "~@/app/(main)/_components/navbar";
+import Navbar from "~@/app/[locale]/(main)/_components/navbar";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "~@/components/ui/popover";
 import { APP_ROUTE } from "~@/constanst/router";
 import { useSearch } from "~@/hooks/useSearch";
@@ -28,6 +29,7 @@ import DocumentGroup from "./documentGroup";
 import Item from "./item";
 import TrashBox from "./trashBox";
 import UserItem from "./userItem";
+import { useLocale } from "next-intl";
 
 const Navigation = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -36,6 +38,7 @@ const Navigation = () => {
   const params = useParams();
   const search = useSearch();
   const settings = useSettings();
+  const locale = useLocale();
   const create = useMutation(api.documents.create);
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -100,7 +103,10 @@ const Navigation = () => {
 
   const handleCreate = () => {
     const promise = create({ title: "Untitled" }).then((docId) => {
-      router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }));
+      router.push(
+        replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }),
+        { locale }
+      );
     });
     toast.promise(promise, {
       loading: "Creating a new note...",

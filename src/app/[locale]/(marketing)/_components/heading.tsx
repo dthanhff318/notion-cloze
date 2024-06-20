@@ -5,13 +5,14 @@ import { Button } from "~@/components/ui/button";
 import { useConvexAuth } from "convex/react";
 import { Spinner } from "~@/components/spinner";
 import { SignInButton } from "@clerk/clerk-react";
-import Link from "next/link";
 import { APP_ROUTE } from "~@/constanst/router";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { translations } from "~messages/translation";
+import { Link } from "~@/navigation";
 
 export const Heading = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
+  const locale = useLocale();
   const t = useTranslations();
   return (
     <div className="max-w-3xl space-y-4">
@@ -31,7 +32,7 @@ export const Heading = () => {
       )}
       {isAuthenticated && !isLoading && (
         <Button asChild>
-          <Link href={APP_ROUTE.DOCUMENTS}>
+          <Link href={APP_ROUTE.DOCUMENTS} locale={locale}>
             {t(translations.Marketing.Enter, {
               value: "tizZote",
             })}

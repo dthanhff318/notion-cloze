@@ -12,7 +12,7 @@ import {
   StarOff,
 } from "lucide-react";
 import moment from "moment";
-import { useRouter } from "next/navigation";
+import { useRouter } from "~@/navigation";
 import React from "react";
 import { toast } from "sonner";
 import {
@@ -29,6 +29,7 @@ import { cn } from "~@/lib/utils";
 import { replacePathParams } from "~@/utils/router";
 import { api } from "~convex/_generated/api";
 import { Doc, Id } from "~convex/_generated/dataModel";
+import { useLocale } from "next-intl";
 interface Props {
   doc?: Omit<Doc<"documents">, "lastEdited"> & {
     lastEdited?: {
@@ -67,6 +68,7 @@ const Item = ({
 }: Props) => {
   const { user } = useUser();
   const router = useRouter();
+  const locale = useLocale();
   const create = useMutation(api.documents.create);
   const archive = useMutation(api.documents.archive);
   const update = useMutation(api.documents.update);
@@ -85,7 +87,8 @@ const Item = ({
           onExpand && onExpand();
         }
         router.push(
-          replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId })
+          replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }),
+          { locale }
         );
       }
     );

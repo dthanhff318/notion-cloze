@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog, DialogContent, DialogHeader } from "~@/components/ui/dialog";
+import { Dialog, DialogContent } from "~@/components/ui/dialog";
 import { useSettings } from "~@/hooks/useSettings";
 import SettingsWrap from "../settings/settingsWrap";
 

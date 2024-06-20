@@ -1,6 +1,6 @@
 "use client";
 import { useMutation } from "convex/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "~@/navigation";
 import React from "react";
 import { toast } from "sonner";
 import ConfirmModal from "~@/components/modals/confirmModal";
@@ -8,6 +8,7 @@ import { Button } from "~@/components/ui/button";
 import { api } from "~convex/_generated/api";
 import { Id } from "~convex/_generated/dataModel";
 import { APP_ROUTE } from "~@/constanst/router";
+import { useLocale } from "next-intl";
 
 type Props = {
   documentId: Id<"documents">;
@@ -17,6 +18,7 @@ const Banner = ({ documentId }: Props) => {
   const router = useRouter();
   const remove = useMutation(api.documents.remove);
   const restore = useMutation(api.documents.restore);
+  const locale = useLocale();
 
   const onRemove = () => {
     const promise = remove({ id: documentId });
@@ -25,7 +27,7 @@ const Banner = ({ documentId }: Props) => {
       success: "Note deleted!",
       error: "Failed to delete.",
     });
-    router.push(APP_ROUTE.DOCUMENTS);
+    router.push(APP_ROUTE.DOCUMENTS, { locale });
   };
 
   const onRestore = () => {

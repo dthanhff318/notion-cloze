@@ -1,5 +1,5 @@
 import { CircleUserRound, Globe, SlidersHorizontal } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ModeToggle } from "../modeToggle";
 import { cn } from "~@/lib/utils";
 import { Avatar, AvatarImage } from "~@/components/ui/avatar";
@@ -7,9 +7,14 @@ import { Label } from "~@/components/ui/label";
 import { useUser } from "@clerk/clerk-react";
 import EditProfile from "./editProfile";
 import Language from "./language";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 const SettingsWrap = () => {
   const { user } = useUser();
+  const t = useTranslations();
+  const pathname = usePathname();
   type ListItemKeys = (typeof listItem)[number]["key"];
   const listItem = [
     {
@@ -24,15 +29,23 @@ const SettingsWrap = () => {
     },
     {
       icon: Globe,
-      title: "Language & region",
+      title: t(translations.Settings.Language.Language_region),
       key: "Language & region",
     },
   ] as const;
 
   const selectTab = (key: ListItemKeys) => {
     setTab(key);
+    localStorage.setItem("settingTab", JSON.stringify(key));
   };
   const [tab, setTab] = useState<ListItemKeys>("My account");
+
+  useEffect(() => {
+    const localTab =
+      JSON.parse(localStorage.getItem("settingTab") ?? "My account") ??
+      "My account";
+    setTab(localTab as any);
+  }, [pathname]);
 
   return (
     <div className="flex h-full pt-4">

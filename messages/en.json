@@ -3,5 +3,12 @@
     "Title": "Note your Ideas, Schedule & Plans. Welcome to",
     "Description": "tizZote is a tool for managing and sharing note,<br></br>supporting teamwork, and it's FREE for everyone",
     "Enter": "Bắt đầu {value}"
+  },
+  "Settings": {
+    "Language": {
+      "Language_region": "Language & region",
+      "Language": "Language",
+      "Lang_desc": "Change the language used in the user interface."
+    }
   }
 }

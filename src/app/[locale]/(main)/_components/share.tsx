@@ -1,6 +1,6 @@
 "use client";
 import { Globe } from "lucide-react";
-import Publish from "~@/app/(main)/_components/publish";
+import Publish from "~@/app/[locale]/(main)/_components/publish";
 import { Button } from "~@/components/ui/button";
 import {
   Popover,

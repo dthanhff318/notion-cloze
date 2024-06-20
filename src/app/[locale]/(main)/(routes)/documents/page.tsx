@@ -3,21 +3,25 @@ import { useUser } from "@clerk/clerk-react";
 import { useMutation } from "convex/react";
 import { PlusCircle } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "~@/components/ui/button";
 import { APP_ROUTE } from "~@/constanst/router";
 import { replacePathParams } from "~@/utils/router";
 import { api } from "~convex/_generated/api";
+import { useLocale } from "next-intl";
+import { useRouter } from "~@/navigation";
 
 const DocumentsPage = () => {
-  const { user } = useUser();
-  const router = useRouter();
   const create = useMutation(api.documents.create);
+  const locale = useLocale();
+  const router = useRouter();
 
   const onCreate = () => {
     const promise = create({ title: "Untitled" }).then((docId) => {
-      router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }));
+      router.push(
+        replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }),
+        { locale }
+      );
     });
     toast.promise(promise, {
       loading: "Creating a new note...",

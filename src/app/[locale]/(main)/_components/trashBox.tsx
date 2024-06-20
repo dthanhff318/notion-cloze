@@ -1,7 +1,7 @@
 "use client";
 import { useQuery, useMutation } from "convex/react";
 import { Search, Trash, Undo } from "lucide-react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Spinner } from "~@/components/spinner";
@@ -11,9 +11,12 @@ import { Id } from "~convex/_generated/dataModel";
 import ConfirmModal from "~@/components/modals/confirmModal";
 import { replacePathParams } from "~@/utils/router";
 import { APP_ROUTE } from "~@/constanst/router";
+import { useRouter } from "~@/navigation";
+import { useLocale } from "next-intl";
 
 const Trashbox = () => {
   const router = useRouter();
+  const locale = useLocale();
   const params = useParams();
   const documents = useQuery(api.documents.getTrash);
   const restore = useMutation(api.documents.restore);
@@ -26,7 +29,9 @@ const Trashbox = () => {
   });
 
   const onClick = (docId: string) => {
-    router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }));
+    router.push(replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, { id: docId }), {
+      locale,
+    });
   };
 
   const onRestore = (
