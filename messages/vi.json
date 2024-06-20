@@ -8,7 +8,16 @@
     "Language": {
       "Language_region": "Ngôn ngữ & khu vực",
       "Language": "Ngôn ngữ",
-      "Lang_desc": "Thay đổi ngôn ngữ hiển thị trên giao diện."
+      "Lang_desc": "Thay đổi ngôn ngữ hiển thị trên giao diện. ( Trang sẽ được tải lại )"
+    },
+    "My_setting": {
+      "My_setting": "Cài đặt",
+      "Appearance": "Giao diện",
+      "Appearance_desc": "Tùy chỉnh giao điện tizZote trên thiết bị của bạn."
     }
+  },
+  "Theme": {
+    "Dark": "Tối",
+    "Light": "Sáng"
   }
 }

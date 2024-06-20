@@ -1,4 +1,7 @@
 "use client";
+import { useLocale, useTranslations } from "next-intl";
+import { useTransition } from "react";
+import { Label } from "~@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -6,9 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~@/components/ui/select";
-import { Label } from "~@/components/ui/label";
 import { locales } from "~@/i18n";
-import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "~@/navigation";
 import { translations } from "~messages/translation";
 
@@ -17,12 +18,17 @@ const Language = () => {
   const router = useRouter();
   const pathName = usePathname();
   const t = useTranslations();
+  const [isPending, startTransition] = useTransition();
+
   const switchLanguage = (e: string) => {
-    router.push(pathName, { locale: e, scroll: false, shallow: true });
+    startTransition(() => {
+      router.push(pathName, { locale: e, scroll: false });
+    });
   };
+
   return (
     <div className="flex items-center justify-between">
-      <Label className="flex flex-col gap-y-1 flex-1">
+      <Label className="flex flex-col gap-y-1 flex-1 pr-2">
         <p className="text-sm font-medium">
           {t(translations.Settings.Language.Language)}
         </p>

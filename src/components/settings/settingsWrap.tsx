@@ -1,3 +1,4 @@
+"use client";
 import { CircleUserRound, Globe, SlidersHorizontal } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { ModeToggle } from "../modeToggle";
@@ -24,7 +25,7 @@ const SettingsWrap = () => {
     },
     {
       icon: SlidersHorizontal,
-      title: "My settings",
+      title: t(translations.Settings.My_setting.My_setting),
       key: "My settings",
     },
     {
@@ -38,13 +39,14 @@ const SettingsWrap = () => {
     setTab(key);
     localStorage.setItem("settingTab", JSON.stringify(key));
   };
+
   const [tab, setTab] = useState<ListItemKeys>("My account");
 
   useEffect(() => {
-    const localTab =
-      JSON.parse(localStorage.getItem("settingTab") ?? "My account") ??
-      "My account";
-    setTab(localTab as any);
+    const localTab = JSON.parse(
+      localStorage.getItem("settingTab") ?? JSON.stringify("My account")
+    );
+    setTab(localTab as ListItemKeys);
   }, [pathname]);
 
   return (
@@ -83,15 +85,17 @@ const SettingsWrap = () => {
       </div>
       <div className="shrink-1 flex-1 px-8 md:px-6">
         <p className="font-medium text-base border-solid border-b-2 border-primary/10 pb-3 mb-4">
-          {tab}
+          {listItem.find((e) => e.key === tab)?.title}
         </p>
         {tab === "My account" && <EditProfile />}
         {tab === "My settings" && (
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-y-1 ">
-              <Label className="text-sm font-medium">Appearance</Label>
+              <Label className="text-sm font-medium">
+                {t(translations.Settings.My_setting.Appearance)}
+              </Label>
               <span className="text-[0.8rem] text-muted-foreground">
-                Customize how Notioz looks on your device
+                {t(translations.Settings.My_setting.Appearance_desc)}
               </span>
             </div>
             <ModeToggle />

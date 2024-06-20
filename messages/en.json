@@ -8,7 +8,16 @@
     "Language": {
       "Language_region": "Language & region",
       "Language": "Language",
-      "Lang_desc": "Change the language used in the user interface."
+      "Lang_desc": "Change the language used in the user interface. ( Page will be reload )"
+    },
+    "My_setting": {
+      "My_setting": "My settings",
+      "Appearance": "Appearance",
+      "Appearance_desc": "Customize how tizZote looks on your device."
     }
+  },
+  "Theme": {
+    "Dark": "Dark",
+    "Light": "Light"
   }
 }
