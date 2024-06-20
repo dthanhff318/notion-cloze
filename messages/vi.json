@@ -3,5 +3,12 @@
     "Title": "Ghi chus",
     "Description": "tizZote is a tool for managing and sharing note,",
     "Enter": "Enter {value}"
+  },
+  "Settings": {
+    "Language": {
+      "Language_region": "Ngôn ngữ & khu vực",
+      "Language": "Ngôn ngữ",
+      "Lang_desc": "Thay đổi ngôn ngữ hiển thị trên giao diện."
+    }
   }
 }

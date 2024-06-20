@@ -8,9 +8,12 @@ import { useUser } from "@clerk/clerk-react";
 import EditProfile from "./editProfile";
 import Language from "./language";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 const SettingsWrap = () => {
   const { user } = useUser();
+  const t = useTranslations();
   const pathname = usePathname();
   type ListItemKeys = (typeof listItem)[number]["key"];
   const listItem = [
@@ -26,7 +29,7 @@ const SettingsWrap = () => {
     },
     {
       icon: Globe,
-      title: "Language & region",
+      title: t(translations.Settings.Language.Language_region),
       key: "Language & region",
     },
   ] as const;
@@ -39,7 +42,8 @@ const SettingsWrap = () => {
 
   useEffect(() => {
     const localTab =
-      JSON.parse(localStorage.getItem("settingTab") ?? "My account") ?? "My account";
+      JSON.parse(localStorage.getItem("settingTab") ?? "My account") ??
+      "My account";
     setTab(localTab as any);
   }, [pathname]);
 
