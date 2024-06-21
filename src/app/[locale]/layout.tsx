@@ -7,7 +7,8 @@ import "./globals.css";
 import { ModalProvider } from "~@/components/providers/modalProvider";
 import { EdgeStoreProvider } from "~@/lib/edgestore";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+import {  getMessages } from "next-intl/server";
+import "moment/min/locales.min";
 
 const inter = Inter({ subsets: ["latin"] });
 

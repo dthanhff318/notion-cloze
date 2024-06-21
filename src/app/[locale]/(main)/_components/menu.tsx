@@ -1,8 +1,8 @@
-import { useUser } from "@clerk/clerk-react";
+"use client";
 import { useMutation } from "convex/react";
 import { Archive, MoreHorizontal, Trash } from "lucide-react";
+import moment from "moment";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { toast } from "sonner";
 import { Button } from "~@/components/ui/button";
 import {
@@ -13,29 +13,35 @@ import {
   DropdownMenuTrigger,
 } from "~@/components/ui/dropdown-menu";
 import { Skeleton } from "~@/components/ui/skeleton";
+import { APP_ROUTE } from "~@/constanst/router";
+import { FORMAT_TIME_FULLY, FORMAT_TIME_LOCALE } from "~@/constanst/time";
 import { api } from "~convex/_generated/api";
 import { Doc } from "~convex/_generated/dataModel";
-import { APP_ROUTE } from "~@/constanst/router";
-import moment from "moment";
-import { FORMAT_TIME_FULLY } from "~@/constanst/time";
+import { useLocale, useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 type Props = {
   document: Doc<"documents">;
 };
 
 const Menu = ({ document }: Props) => {
+  const t = useTranslations();
+  const locale = useLocale();
   const router = useRouter();
-  const { user } = useUser();
   const archive = useMutation(api.documents.archive);
   const remove = useMutation(api.documents.remove);
+
+  // Set locale for moment
+  moment.locale(locale);
+
   const onArchive = () => {
     const promise = archive({ id: document._id }).then(() => {
       router.push(APP_ROUTE.DOCUMENTS);
     });
     toast.promise(promise, {
-      loading: "Moving to archive...",
-      success: "Note moved to archive!",
-      error: "Failed to achive note.",
+      loading: t(translations.Archive_note.Loading),
+      success: t(translations.Archive_note.Success),
+      error: t(translations.Archive_note.Error),
     });
   };
 
@@ -46,9 +52,9 @@ const Menu = ({ document }: Props) => {
       router.push(APP_ROUTE.DOCUMENTS);
     });
     toast.promise(promise, {
-      loading: "Removing note...",
-      success: "Note have been removed!",
-      error: "Failed to remove note.",
+      loading: t(translations.Remove_note.Loading),
+      success: t(translations.Remove_note.Success),
+      error: t(translations.Remove_note.Error),
     });
   };
   return (
@@ -67,17 +73,19 @@ const Menu = ({ document }: Props) => {
         {document.isArchived ? (
           <DropdownMenuItem onClick={onRemove}>
             <Trash className="h-4 w-4 mr-2" />
-            Delete
+            {t(translations.Title.Delete)}
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem onClick={onArchive}>
             <Archive className="h-4 w-4 mr-2" />
-            Archive
+            {t(translations.Title.Archive)}
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
         <div className="text-xs text-muted-foreground p-2">
-          Created at: {moment(document._creationTime).format(FORMAT_TIME_FULLY)}
+          {t(translations.Title.Created_at, {
+            time: moment(document._creationTime).format(FORMAT_TIME_LOCALE),
+          })}
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

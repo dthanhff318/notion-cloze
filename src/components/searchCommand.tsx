@@ -1,12 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { File } from "lucide-react";
 import { useQuery } from "convex/react";
-import { useUser } from "@clerk/clerk-react";
-import { useRouter } from "~@/navigation";
-import { api } from "~convex/_generated/api";
-import { useSearch } from "~@/hooks/useSearch";
+import { File } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import {
   CommandDialog,
   CommandEmpty,
@@ -15,11 +12,15 @@ import {
   CommandItem,
   CommandList,
 } from "~@/components/ui/command";
-import { replacePathParams } from "~@/utils/router";
 import { APP_ROUTE } from "~@/constanst/router";
-import { useLocale } from "next-intl";
+import { useSearch } from "~@/hooks/useSearch";
+import { useRouter } from "~@/navigation";
+import { replacePathParams } from "~@/utils/router";
+import { api } from "~convex/_generated/api";
+import { translations } from "~messages/translation";
 
 const SearchCommand = () => {
+  const t = useTranslations();
   const router = useRouter();
   const locale = useLocale();
   const documents = useQuery(api.documents.getSearch);
@@ -57,10 +58,10 @@ const SearchCommand = () => {
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <CommandInput placeholder={`Search...`} />
+      <CommandInput placeholder={`${t(translations.Title.Search)}...`} />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Documents">
+        <CommandEmpty>{t(translations.Title.No_results_found)}</CommandEmpty>
+        <CommandGroup>
           {documents?.map((doc) => (
             <CommandItem
               key={doc._id}

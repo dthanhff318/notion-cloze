@@ -29,9 +29,11 @@ import DocumentGroup from "./documentGroup";
 import Item from "./item";
 import TrashBox from "./trashBox";
 import UserItem from "./userItem";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 const Navigation = () => {
+  const t = useTranslations();
   const isMobile = useMediaQuery("(max-width:768px)");
   const pathname = usePathname();
   const router = useRouter();
@@ -109,9 +111,9 @@ const Navigation = () => {
       );
     });
     toast.promise(promise, {
-      loading: "Creating a new note...",
-      success: "New note created!",
-      error: "Failed to create a new note.",
+      loading: t(translations.Create_note.Loading),
+      success: t(translations.Create_note.Success),
+      error: t(translations.Create_note.Error),
     });
   };
 
@@ -150,9 +152,22 @@ const Navigation = () => {
         </div>
         <div className="px-2 space-y-[0.5]">
           <UserItem />
-          <Item onClick={search.onOpen} label="Search" icon={Search} isSearch />
-          <Item onClick={settings.onOpen} label="Settings" icon={Settings} />
-          <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
+          <Item
+            onClick={search.onOpen}
+            label={t(translations.Title.Search)}
+            icon={Search}
+            isSearch
+          />
+          <Item
+            onClick={settings.onOpen}
+            label={t(translations.Title.Settings)}
+            icon={Settings}
+          />
+          <Item
+            onClick={handleCreate}
+            label={t(translations.Title.New_note)}
+            icon={PlusCircle}
+          />
         </div>
         <div className="mt-4 overflow-y-auto px-2 flex-1">
           <DocumentGroup />
@@ -161,7 +176,7 @@ const Navigation = () => {
 
         <Popover>
           <PopoverTrigger className="w-full py-2 h-fit border-[1px] border-solid border-text-muted-foreground">
-            <Item label="Trash" icon={Trash} />
+            <Item label={t(translations.Title.Trash)} icon={Trash} />
           </PopoverTrigger>
           <PopoverContent
             side={isMobile ? "bottom" : "right"}

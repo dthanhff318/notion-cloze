@@ -11,7 +11,8 @@ import { Doc, Id } from "~convex/_generated/dataModel";
 import Item from "./item";
 import { replacePathParams } from "~@/utils/router";
 import { APP_ROUTE } from "~@/constanst/router";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 interface Props {
   parentDocumentId?: Id<"documents">;
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const DocumentList = ({ parentDocumentId, level, data }: Props) => {
+  const t = useTranslations();
   const params = useParams();
   const router = useRouter();
   const locale = useLocale();
@@ -66,7 +68,7 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
           level === 0 && "hidden"
         )}
       >
-        No page inside
+        {t(translations.Title.No_note_inside)}
       </p>
       {documents?.map((doc) => (
         <div key={doc._id}>
@@ -81,6 +83,7 @@ const DocumentList = ({ parentDocumentId, level, data }: Props) => {
             onClick={() => onRedirect(doc._id)}
             onExpand={() => onExpand(doc._id)}
             expanded={expanded[doc._id]}
+            isFavourite={doc.isFavourite}
           />
           {expanded[doc._id] && (
             <DocumentList level={(level ?? 0) + 1} parentDocumentId={doc._id} />

@@ -20,7 +20,7 @@ const SettingsWrap = () => {
   const listItem = [
     {
       icon: CircleUserRound,
-      title: "My account",
+      title: t(translations.Settings.My_account.My_account),
       key: "My account",
     },
     {

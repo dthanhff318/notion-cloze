@@ -8,7 +8,8 @@ import { useOrigin } from "~@/hooks/useOrigin";
 import { api } from "~convex/_generated/api";
 import { Doc } from "~convex/_generated/dataModel";
 import { Switch } from "~@/components/ui/switch";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 type Props = {
   initialData: Doc<"documents">;
@@ -17,7 +18,7 @@ type Props = {
 const Publish = ({ initialData }: Props) => {
   const origin = useOrigin();
   const update = useMutation(api.documents.update);
-
+  const t = useTranslations();
   const [copied, setCopied] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -60,7 +61,9 @@ const Publish = ({ initialData }: Props) => {
         <div className="space-y-4">
           <div className="flex items-center gap-x-2">
             <Radio className="text-sky-500 w-4 h-4 animate-pulse" />
-            <p className="text-xs font-medium text-sky-500">Live on the web.</p>
+            <p className="text-xs font-medium text-sky-500">
+              {t(translations.Share.Publish.Live_on_the_web)}
+            </p>
           </div>
           <div className="flex items-center">
             <input
@@ -82,7 +85,9 @@ const Publish = ({ initialData }: Props) => {
           </div>
           <div className="mt-2">
             <div className="flex justify-between">
-              <p className="text-xs">Allow editing</p>
+              <p className="text-xs">
+                {t(translations.Share.Publish.Allow_editing)}
+              </p>
               <Switch
                 checked={initialData.allowEdit}
                 onClick={toggleAllowEdit}
@@ -96,7 +101,7 @@ const Publish = ({ initialData }: Props) => {
               onClick={onPublish}
               className="w-full text-xs"
             >
-              Unpublish
+              {t(translations.Share.Publish.Unpublish)}
             </Button>
             <Button
               size="sm"
@@ -107,7 +112,7 @@ const Publish = ({ initialData }: Props) => {
             >
               <a href={url} target="_blank">
                 <Globe className="h-4 w-4 text-sky-500 mr-1" />
-                View site
+                {t(translations.Share.Publish.View_site)}
               </a>
             </Button>
           </div>
@@ -115,16 +120,18 @@ const Publish = ({ initialData }: Props) => {
       ) : (
         <div className="flex flex-col items-center justify-center">
           <AppWindow className="text-muted-foreground w-8 h-8 mb-2" />
-          <p className="text-sm font-medium mb-2">Publish to web</p>
+          <p className="text-sm font-medium mb-2">
+            {t(translations.Share.Publish.Publish_to_web)}
+          </p>
           <span className="text-xs text-muted-foreground mb-4">
-            Publish a static website of this page.
+            {t(translations.Share.Publish.Publish_to_web_desc)}
           </span>
           <Button
             disabled={isSubmitting}
             onClick={onPublish}
             className="w-full text-xs"
           >
-            Publish
+            {t(translations.Share.Publish.Publish)}
           </Button>
         </div>
       )}

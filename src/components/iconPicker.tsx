@@ -2,6 +2,7 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { useTheme } from "next-themes";
 import React from "react";
+import { useLocale } from "next-intl";
 import {
   Popover,
   PopoverContent,
@@ -19,6 +20,7 @@ type TEmojiData = {
 };
 
 const IconPicker = ({ onChange, children, asChild }: Props) => {
+  const locale = useLocale();
   const { resolvedTheme } = useTheme();
   const theme = resolvedTheme === "dark" ? "dark" : "light";
   return (
@@ -26,6 +28,7 @@ const IconPicker = ({ onChange, children, asChild }: Props) => {
       <PopoverTrigger asChild={asChild}>{children}</PopoverTrigger>
       <PopoverContent className="p-0 w-full border-none shadow-none">
         <Picker
+          locale={locale}
           height={350}
           maxFrequentRows={2}
           perLine={7}

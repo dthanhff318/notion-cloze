@@ -14,17 +14,20 @@ import {
   TabsTrigger,
 } from "~@/components/ui/tabs";
 import { Doc } from "~convex/_generated/dataModel";
+import { useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 type Props = {
   initialData: Doc<"documents">;
 };
 
 const Share = ({ initialData }: Props) => {
+  const t = useTranslations();
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button size="sm" variant="ghost">
-          Share
+          {t(translations.Share.Share.Share)}
           {initialData.isPublished && (
             <Globe className="text-sky-500 w-4 h-4 ml-2" />
           )}
@@ -34,14 +37,16 @@ const Share = ({ initialData }: Props) => {
         <Tabs defaultValue="share" className="">
           <TabsList>
             <TabsTrigger value="share" className="text-xs">
-              Share
+              {t(translations.Share.Share.Share)}
             </TabsTrigger>
             <TabsTrigger value="publish" className="text-xs">
-              Publish
+              {t(translations.Share.Publish.Publish)}
             </TabsTrigger>
           </TabsList>
           <TabsContent value="share">
-            <p className="font-bold text-xs mt-4 ml-2">Coming soon...</p>
+            <p className="font-bold text-xs mt-4 ml-2">
+              {t(translations.Coming_soon)}
+            </p>
           </TabsContent>
           <TabsContent value="publish">
             <div className="mt-4">

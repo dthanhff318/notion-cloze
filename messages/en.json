@@ -14,10 +14,69 @@
       "My_setting": "My settings",
       "Appearance": "Appearance",
       "Appearance_desc": "Customize how tizZote looks on your device."
+    },
+    "My_account": {
+      "My_account": "My account",
+      "Preferred_name": "Preferred name:"
     }
   },
   "Theme": {
     "Dark": "Dark",
     "Light": "Light"
+  },
+  "Create_note": {
+    "Loading": "Creating a new note...",
+    "Success": "New note created!",
+    "Error": "Failed to create a new note."
+  },
+  "Archive_note": {
+    "Loading": "Moving to archive...",
+    "Success": "Note moved to archive!",
+    "Error": "Failed to achive note."
+  },
+  "Favourites": {
+    "Loading": "Adding to favorites...",
+    "Success": "Added to favorites!",
+    "Error": "Failed to action.",
+    "Favourite": "Favourite",
+    "Unfavourite": "Unfavourite"
+  },
+  "Title": {
+    "Search": "Search",
+    "Settings": "Settings",
+    "New_note": "New note",
+    "Favourite": "Favourite",
+    "Private": "Private",
+    "No_note_inside": "No note inside",
+    "Archive": "Archive",
+    "Trash": "Trash",
+    "No_results_found": "No results found.",
+    "Last_edited_by": "Last edited by: {name}",
+    "Delete": "Delete",
+    "Created_at": "Created at {time}"
+  },
+  "Share": {
+    "Share": {
+      "Share": "Share"
+    },
+    "Publish": {
+      "Publish": "Publish",
+      "Publish_to_web": "Publish to web",
+      "Publish_to_web_desc": "Publish a static website of this page.",
+      "Live_on_the_web": "Live on the web.",
+      "Unpublish": "Unpublish",
+      "View_site": "View site",
+      "Allow_editing": "Allow editing"
+    }
+  },
+  "Coming_soon": "Coming soon...",
+  "Tool_bar": {
+    "Add_icon": "Add icon",
+    "Add_cover_image": "Add cover image"
+  },
+  "Remove_note": {
+    "Loading": "Removing note...",
+    "Success": "Note have been removed!",
+    "Error": "Failed to remove note."
   }
 }

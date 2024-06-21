@@ -1,15 +1,19 @@
+"use client";
 import { Ellipsis } from "lucide-react";
 import DocumentFavourite from "./documentFavourite";
 import DocumentList from "./documentList";
+import { useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 const DocumentGroup = () => {
+  const t = useTranslations();
   const listCategory = [
     {
-      title: "Favourite",
+      title: t(translations.Title.Favourite),
       component: <DocumentFavourite />,
     },
     {
-      title: "Private",
+      title: t(translations.Title.Private),
       component: <DocumentList />,
     },
   ];

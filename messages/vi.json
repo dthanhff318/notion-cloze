@@ -14,10 +14,69 @@
       "My_setting": "Cài đặt",
       "Appearance": "Giao diện",
       "Appearance_desc": "Tùy chỉnh giao điện tizZote trên thiết bị của bạn."
+    },
+    "My_account": {
+      "My_account": "Tài khoản",
+      "Preferred_name": "Tên ưa thích:"
     }
   },
   "Theme": {
     "Dark": "Tối",
     "Light": "Sáng"
+  },
+  "Create_note": {
+    "Loading": "Đang tạo mới ghi chú...",
+    "Success": "Tạo mới ghi chú thành công!",
+    "Error": "Có lỗi xảy ra khi tạo ghi chú."
+  },
+  "Archive_note": {
+    "Loading": "Đang chuyển tới hòm lưu trữ ...",
+    "Success": "Chuyển tới hòm lưu trữ thành công!",
+    "Error": "Có lỗi xảy ra."
+  },
+  "Favourites": {
+    "Loading": "Đang thêm vào danh sách yêu thích...",
+    "Success": "Đã thêm vào danh sách yêu thích!",
+    "Error": "Có lỗi xảy ra.",
+    "Favourite": "Yêu thích",
+    "Unfavourite": "Bỏ thích"
+  },
+  "Title": {
+    "Search": "Tìm kiếm",
+    "Settings": "Cài đặt",
+    "New_note": "Tạo ghi chú",
+    "Favourite": "Yêu thích",
+    "Private": "Riêng tư",
+    "No_note_inside": "Không có ghi chú nào",
+    "Archive": "Lưu trữ",
+    "Trash": "Thùng rác",
+    "No_results_found": "Không tìm thấy kết quả.",
+    "Last_edited_by": "Chỉnh sửa lần cuối bởi: {name}",
+    "Delete": "Xóa",
+    "Created_at": "Được tạo vào {time}"
+  },
+  "Share": {
+    "Share": {
+      "Share": "Chia sẻ"
+    },
+    "Publish": {
+      "Publish": "Công khai",
+      "Publish_to_web": "Công khai lên web",
+      "Publish_to_web_desc": "Công khai ghi chú này lên web tĩnh.",
+      "Live_on_the_web": "Công khai trên web.",
+      "Unpublish": "Hủy công khai",
+      "View_site": "Xem trang web",
+      "Allow_editing": "Cho phép chỉnh sửa"
+    }
+  },
+  "Coming_soon": "Sắp ra mắt...",
+  "Tool_bar": {
+    "Add_icon": "Thêm biểu tượng",
+    "Add_cover_image": "Thêm ảnh nền"
+  },
+  "Remove_note": {
+    "Loading": "Đang xóa ghi chú...",
+    "Success": "Ghi chú đã được xóa!",
+    "Error": "Có lỗi xảy ra."
   }
 }

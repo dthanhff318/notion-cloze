@@ -1,5 +1,4 @@
 "use client";
-import { useUser } from "@clerk/clerk-react";
 import { useMutation } from "convex/react";
 import {
   Archive,
@@ -8,11 +7,11 @@ import {
   LucideIcon,
   MoreHorizontal,
   Plus,
-  Star,
-  StarOff,
+  Star
 } from "lucide-react";
 import moment from "moment";
-import { useRouter } from "~@/navigation";
+import "moment/min/locales.min";
+import { useLocale, useTranslations } from "next-intl";
 import React from "react";
 import { toast } from "sonner";
 import {
@@ -20,16 +19,17 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "~@/components/ui/dropdown-menu";
 import { Skeleton } from "~@/components/ui/skeleton";
 import { APP_ROUTE } from "~@/constanst/router";
-import { FORMAT_TIME_FULLY } from "~@/constanst/time";
+import { FORMAT_TIME_LOCALE } from "~@/constanst/time";
 import { cn } from "~@/lib/utils";
+import { useRouter } from "~@/navigation";
 import { replacePathParams } from "~@/utils/router";
 import { api } from "~convex/_generated/api";
 import { Doc, Id } from "~convex/_generated/dataModel";
-import { useLocale } from "next-intl";
+import { translations } from "~messages/translation";
 interface Props {
   doc?: Omit<Doc<"documents">, "lastEdited"> & {
     lastEdited?: {
@@ -66,18 +66,20 @@ const Item = ({
   onExpand,
   onClick,
 }: Props) => {
-  const { user } = useUser();
-  const router = useRouter();
+  const t = useTranslations();
   const locale = useLocale();
+  const router = useRouter();
   const create = useMutation(api.documents.create);
   const archive = useMutation(api.documents.archive);
   const update = useMutation(api.documents.update);
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
+
+  // Set locale for moment
+  moment.locale(locale);
   const handleExpand = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     onExpand && onExpand();
   };
-
   const onCreate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
     if (!id) return;
@@ -93,9 +95,9 @@ const Item = ({
       }
     );
     toast.promise(promise, {
-      loading: "Creating a new note...",
-      success: "New note created!",
-      error: "Failed to create a new note.",
+      loading: t(translations.Create_note.Loading),
+      success: t(translations.Create_note.Success),
+      error: t(translations.Create_note.Error),
     });
   };
 
@@ -106,9 +108,9 @@ const Item = ({
       router.push(APP_ROUTE.DOCUMENTS);
     });
     toast.promise(promise, {
-      loading: "Moving to archive...",
-      success: "Note moved to archive!",
-      error: "Failed to achive note.",
+      loading: t(translations.Archive_note.Loading),
+      success: t(translations.Archive_note.Success),
+      error: t(translations.Archive_note.Error),
     });
   };
 
@@ -122,9 +124,9 @@ const Item = ({
       router.push(APP_ROUTE.DOCUMENTS);
     });
     toast.promise(promise, {
-      loading: "Adding to favorites...",
-      success: "Added to favorites!",
-      error: "Failed to action.",
+      loading: t(translations.Favourites.Loading),
+      success: t(translations.Favourites.Success),
+      error: t(translations.Favourites.Error),
     });
   };
 
@@ -193,45 +195,37 @@ const Item = ({
               side="right"
               forceMount
             >
-              {!isFavourite && !itemFavourite && (
-                <DropdownMenuItem
-                  onClick={addToFavourite}
-                  className="flex items-center"
-                >
-                  <Star className="h-4 w-4 mr-2" />
-                  <p>Favourite</p>
-                </DropdownMenuItem>
-              )}
-              {itemFavourite && (
-                <DropdownMenuItem
-                  onClick={addToFavourite}
-                  className="flex items-center"
-                >
-                  <StarOff className="h-4 w-4 mr-2" />
-                  <p>Unfavourite</p>
-                </DropdownMenuItem>
-              )}
+              <DropdownMenuItem
+                onClick={addToFavourite}
+                className="flex items-center"
+              >
+                <Star className="h-4 w-4 mr-2" />
+                <p>
+                  {t(
+                    translations.Favourites[
+                      isFavourite ? "Unfavourite" : "Favourite"
+                    ]
+                  )}
+                </p>
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={onArchive}
                 className="flex items-center"
               >
                 <Archive className="h-4 w-4 mr-2" />
-                <p>Delete</p>
+                <p>{t(translations.Title.Archive)}</p>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <div className="text-xs text-muted-foreground p-2 flex flex-col items-start gap-2">
                 <p>
-                  Last edited by:{" "}
-                  {doc?.lastEdited?.user?.lastName ??
-                    user?.username ??
-                    user?.lastName}
+                  {t(translations.Title.Last_edited_by, {
+                    name: doc?.lastEdited?.user?.lastName,
+                  })}
                 </p>
                 <p>
-                  {moment(
-                    doc?.lastEdited?.time
-                      ? doc?.lastEdited?.time
-                      : doc?._creationTime
-                  ).format(FORMAT_TIME_FULLY)}
+                  {moment(doc?.lastEdited?.time || doc?._creationTime).format(
+                    FORMAT_TIME_LOCALE
+                  )}
                 </p>
               </div>
             </DropdownMenuContent>

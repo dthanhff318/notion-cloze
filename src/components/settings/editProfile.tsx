@@ -3,9 +3,12 @@ import { CircleCheck } from "lucide-react";
 import { useRef, useState } from "react";
 import { Avatar, AvatarImage } from "~@/components/ui/avatar";
 import { Input } from "~@/components/ui/input";
+import { useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 const EditProfile = () => {
   const { user } = useUser();
+  const t = useTranslations();
   const nameRef = useRef<HTMLInputElement>(null);
   const uploadRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState<string>(user?.lastName ?? "");
@@ -51,7 +54,9 @@ const EditProfile = () => {
         <AvatarImage className="object-cover" src={user?.imageUrl} />
       </Avatar>
       <div className="space-y-1">
-        <p className="text-muted-foreground text-xs">Preferred name: </p>
+        <p className="text-muted-foreground text-xs">
+          {t(translations.Settings.My_account.Preferred_name)}
+        </p>
         <div className="flex items-center">
           <Input
             type="text"

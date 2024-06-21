@@ -7,6 +7,8 @@ import "@blocknote/mantine/style.css";
 import { useTheme } from "next-themes";
 import { BlockNoteEditor, PartialBlock } from "@blocknote/core";
 import { useEdgeStore } from "~@/lib/edgestore";
+import { locales } from "@blocknote/core";
+import { useLocale } from "next-intl";
 
 type Props = {
   onChange: (value: string) => void;
@@ -15,6 +17,7 @@ type Props = {
 };
 
 const Editor = ({ initialContent, editable = true, onChange }: Props) => {
+  const locale = useLocale();
   const { resolvedTheme } = useTheme();
   const { edgestore } = useEdgeStore();
   const handleUpload = async (file: File) => {
@@ -28,10 +31,11 @@ const Editor = ({ initialContent, editable = true, onChange }: Props) => {
       ? (JSON.parse(initialContent) as PartialBlock[])
       : undefined,
     uploadFile: handleUpload,
+    dictionary: (locales as any)[locale],
   });
 
   return (
-    <div className="z-9999999999999">
+    <div className="z-9999999">
       <BlockNoteView
         editor={editor}
         editable={editable}

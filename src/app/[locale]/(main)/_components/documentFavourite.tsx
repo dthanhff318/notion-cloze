@@ -11,15 +11,16 @@ import { Doc, Id } from "~convex/_generated/dataModel";
 import Item from "./item";
 import { replacePathParams } from "~@/utils/router";
 import { APP_ROUTE } from "~@/constanst/router";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 interface Props {
-  parentDocumentId?: Id<"documents">;
   level?: number;
   data?: Doc<"documents">[];
 }
 
-const DocumentFavourite = ({ parentDocumentId, level, data }: Props) => {
+const DocumentFavourite = ({ level, data }: Props) => {
+  const t = useTranslations();
   const params = useParams();
   const router = useRouter();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -65,7 +66,7 @@ const DocumentFavourite = ({ parentDocumentId, level, data }: Props) => {
           level === 0 && "hidden"
         )}
       >
-        No page inside
+        {t(translations.Title.No_note_inside)}
       </p>
       {documents?.map((doc) => (
         <div key={doc._id}>
@@ -81,6 +82,7 @@ const DocumentFavourite = ({ parentDocumentId, level, data }: Props) => {
             onExpand={() => onExpand(doc._id)}
             expanded={expanded[doc._id]}
             itemFavourite={true}
+            isFavourite={doc.isFavourite}
           />
         </div>
       ))}

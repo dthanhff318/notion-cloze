@@ -9,6 +9,8 @@ import { useCoverImage } from "~@/hooks/useCoverImage";
 import { api } from "~convex/_generated/api";
 import { Doc } from "~convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-react";
+import { useTranslations } from "next-intl";
+import { translations } from "~messages/translation";
 
 type Props = {
   initialData: Doc<"documents">;
@@ -16,6 +18,7 @@ type Props = {
 };
 
 const Toolbar = ({ initialData, allowEdit = true }: Props) => {
+  const t = useTranslations();
   const { user } = useUser();
   const inputRef = useRef<ElementRef<"textarea">>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -105,7 +108,7 @@ const Toolbar = ({ initialData, allowEdit = true }: Props) => {
               size="sm"
             >
               <Smile className="h-4 w-4 mr-2" />
-              Add icon
+              {t(translations.Tool_bar.Add_icon)}
             </Button>
           </IconPicker>
         )}
@@ -117,7 +120,7 @@ const Toolbar = ({ initialData, allowEdit = true }: Props) => {
             onClick={coverImage.onOpen}
           >
             <ImageIcon className="h-4 w-4 mr-2" />
-            Add cover image
+            {t(translations.Tool_bar.Add_cover_image)}
           </Button>
         )}
       </div>

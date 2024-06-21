@@ -1,7 +1,9 @@
+import ErrorBoundary from "./error";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  return <ErrorBoundary>{children}</ErrorBoundary>;
 }
