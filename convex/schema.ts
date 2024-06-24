@@ -20,6 +20,7 @@ export default defineSchema({
         time: v.number(),
       })
     ),
+    members: v.optional(v.array(v.string())),
   })
     .index("by_user", ["userId"])
     .index("by_user_parent", ["userId", "parentDocument"]),

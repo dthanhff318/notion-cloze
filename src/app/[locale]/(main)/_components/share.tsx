@@ -16,6 +16,7 @@ import {
 import { Doc } from "~convex/_generated/dataModel";
 import { useTranslations } from "next-intl";
 import { translations } from "~messages/translation";
+import Invite from "./invite";
 
 type Props = {
   initialData: Doc<"documents">;
@@ -44,9 +45,7 @@ const Share = ({ initialData }: Props) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="share">
-            <p className="font-bold text-xs mt-4 ml-2">
-              {t(translations.Coming_soon)}
-            </p>
+            <Invite initialData={initialData} />
           </TabsContent>
           <TabsContent value="publish">
             <div className="mt-4">

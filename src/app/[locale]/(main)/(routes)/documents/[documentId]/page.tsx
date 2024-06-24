@@ -9,6 +9,7 @@ import Toolbar from "~@/components/toolbar";
 import { Skeleton } from "~@/components/ui/skeleton";
 import { api } from "~convex/_generated/api";
 import { Id } from "~convex/_generated/dataModel";
+
 type Props = {
   params: {
     documentId: Id<"documents">;
@@ -55,6 +56,7 @@ const DocumentIdPage = ({ params }: Props) => {
   if (document === null) {
     return <div>Not found</div>;
   }
+
   return (
     <>
       <div className="pb-40 pl-4">

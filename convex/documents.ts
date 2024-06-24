@@ -241,6 +241,9 @@ export const getById = query({
     if (document.isPublished && !document.isArchived) {
       return document;
     }
+    if (!document.members?.includes(userId)) {
+      throw new Error("Forbiden");
+    }
     if (document.userId !== userId) {
       throw new Error("Unauthorized");
     }

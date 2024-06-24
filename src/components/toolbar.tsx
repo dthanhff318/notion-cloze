@@ -78,7 +78,7 @@ const Toolbar = ({ initialData, allowEdit = true }: Props) => {
   };
 
   return (
-    <div className="pl-[54px] group relative">
+    <div className="pl-[20px] md:pl-[30px] lg:pl-[54px] group relative">
       {!!initialData.icon && allowEdit && (
         <div className="flex items-center gap-x-2 group/icon pt-6">
           <IconPicker onChange={onIconSelect}>
