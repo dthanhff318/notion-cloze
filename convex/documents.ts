@@ -241,9 +241,7 @@ export const getById = query({
     if (document.isPublished && !document.isArchived) {
       return document;
     }
-    if (!document.members?.includes(userId)) {
-      throw new Error("Forbiden");
-    }
+
     if (document.userId !== userId) {
       throw new Error("Unauthorized");
     }
@@ -337,10 +335,22 @@ export const getPreviewById = query({
     if (!document) {
       throw new Error("Not found");
     }
+    if (!document.isPublished) {
+      const identity = await checkAuth(ctx);
+      const userId = identity.subject;
+      if (!document.members?.includes(userId)) {
+        return {
+          ...document,
+          status: 403,
+        };
+      }
+    }
+
     if (document.isPublished && !document.isArchived) {
       return document;
     }
-    throw new Error("Not found");
+
+    throw new Error("Not foundzz");
   },
 });
 
