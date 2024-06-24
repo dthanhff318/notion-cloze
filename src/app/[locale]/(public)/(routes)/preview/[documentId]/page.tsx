@@ -7,11 +7,11 @@ import Cover from "~@/components/cover";
 import Toolbar from "~@/components/toolbar";
 import { Button } from "~@/components/ui/button";
 import { Skeleton } from "~@/components/ui/skeleton";
-import { APP_ROUTE } from "~@/constanst/router";
-import { Link } from "~@/navigation";
+
 import { api } from "~convex/_generated/api";
 import { Id } from "~convex/_generated/dataModel";
 import Image from "next/image";
+import RequestPermission from "~@/app/[locale]/(public)/(routes)/preview/_components/requestPermission";
 
 type Props = {
   params: {
@@ -36,7 +36,7 @@ const DocumentIdPage = ({ params }: Props) => {
       content,
     });
   };
-  
+
   if (document === undefined) {
     return (
       <div>
@@ -57,28 +57,7 @@ const DocumentIdPage = ({ params }: Props) => {
   }
 
   if ((document as any).status === 403) {
-    return (
-      <div className="h-full flex flex-col items-center justify-center space-y-4">
-        <Image
-          src="/error.png"
-          alt="Error"
-          height="300"
-          width="300"
-          className="dark:hidden"
-        />
-        <Image
-          src="/error-dark.png"
-          alt="Error"
-          height="300"
-          width="300"
-          className="hidden dark:block"
-        />
-        <h2 className="text-xl font-medium">Something went wrong</h2>
-        <Button asChild>
-          <Link href={APP_ROUTE.DOCUMENTS}>Go back</Link>
-        </Button>
-      </div>
-    );
+    return <RequestPermission />;
   }
   return (
     <div className="pb-40">

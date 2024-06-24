@@ -2,7 +2,7 @@
   "Marketing": {
     "Title": "Note your Ideas, Schedule & Plans. Welcome to",
     "Description": "tizZote is a tool for managing and sharing note,<br></br>supporting teamwork, and it's FREE for everyone",
-    "Enter": "Bắt đầu {value}"
+    "Enter": "Start {value}"
   },
   "Settings": {
     "Language": {
@@ -53,7 +53,8 @@
     "No_results_found": "No results found.",
     "Last_edited_by": "Last edited by: {name}",
     "Delete": "Delete",
-    "Created_at": "Created at {time}"
+    "Created_at": "Created at {time}",
+    "Notification" : "Notification"
   },
   "Share": {
     "Share": {
@@ -78,5 +79,10 @@
     "Loading": "Removing note...",
     "Success": "Note have been removed!",
     "Error": "Failed to remove note."
+  },
+  "Request_permission": {
+    "Title": "You don't have permission to view it.",
+    "Request": "Request permission",
+    "Request_success": "Send request success"
   }
 }

@@ -32,4 +32,13 @@ export default defineSchema({
     email: v.string(),
     imageUrl: v.optional(v.string()),
   }).index("by_clerk_id", ["clerkId"]),
+  // Noti
+  notis: defineTable({
+    userId: v.string(),
+    type: v.string(),
+    fromUser: v.optional(v.string()),
+    documentId: v.string(),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_fromUser", ["fromUser"]),
 });

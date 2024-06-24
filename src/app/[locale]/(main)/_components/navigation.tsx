@@ -1,6 +1,7 @@
 "use client";
 import { useMutation } from "convex/react";
 import {
+  BellIcon,
   ChevronsLeft,
   MenuIcon,
   PlusCircle,
@@ -162,6 +163,11 @@ const Navigation = () => {
             onClick={settings.onOpen}
             label={t(translations.Title.Settings)}
             icon={Settings}
+          />
+          <Item
+            onClick={settings.onOpen}
+            label={t(translations.Title.Notification)}
+            icon={BellIcon}
           />
           <Item
             onClick={handleCreate}
