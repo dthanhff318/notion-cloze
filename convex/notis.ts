@@ -35,6 +35,7 @@ export const getNotis = query({
   handler: async (ctx) => {
     const identity = await checkAuth(ctx);
     const userId = identity.subject;
+
     const notis = ctx.db
       .query("notis")
       .withIndex("by_userId", (q) => q.eq("userId", userId))

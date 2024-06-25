@@ -54,7 +54,7 @@
     "Last_edited_by": "Last edited by: {name}",
     "Delete": "Delete",
     "Created_at": "Created at {time}",
-    "Notification" : "Notification"
+    "Notification": "Notification"
   },
   "Share": {
     "Share": {
@@ -84,5 +84,10 @@
     "Title": "You don't have permission to view it.",
     "Request": "Request permission",
     "Request_success": "Send request success"
+  },
+  "Noti": {
+    "Title": "Inbox",
+    "No_noti_title": "You're all caught up.",
+    "No_noti_desc": "You'll be notified here for @mentions, page activity, and page invites."
   }
 }

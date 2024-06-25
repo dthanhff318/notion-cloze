@@ -54,7 +54,7 @@
     "Last_edited_by": "Chỉnh sửa lần cuối bởi: {name}",
     "Delete": "Xóa",
     "Created_at": "Được tạo vào {time}",
-    "Notification" : "Thông báo"
+    "Notification": "Thông báo"
   },
   "Share": {
     "Share": {
@@ -84,5 +84,10 @@
     "Title": "Bạn không có quyền truy cập nội dung này.",
     "Request": "Yêu cầu truy cập",
     "Request_success": "Đã gửi yêu cầu"
+  },
+  "Noti": {
+    "Title": "Hòm thư",
+    "No_noti_title": "Bạn đã xem hết tất cả.",
+    "No_noti_desc": "Bạn sẽ nhận thông báo ở đây khi có @mentions, hoạt động trên trang và lời mời vào trang."
   }
 }

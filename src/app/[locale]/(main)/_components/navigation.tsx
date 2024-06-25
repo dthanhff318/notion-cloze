@@ -3,6 +3,7 @@ import { useMutation } from "convex/react";
 import {
   BellIcon,
   ChevronsLeft,
+  InboxIcon,
   MenuIcon,
   PlusCircle,
   Search,
@@ -32,7 +33,11 @@ import TrashBox from "./trashBox";
 import UserItem from "./userItem";
 import { useLocale, useTranslations } from "next-intl";
 import { translations } from "~messages/translation";
+import NotiList from "./notisList";
+import { useNoti } from "~@/hooks/useNoti";
+import { useNavigation } from "~@/hooks/useNavigation";
 
+const DEFAULT_WIDTH = 300;
 const Navigation = () => {
   const t = useTranslations();
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -41,6 +46,8 @@ const Navigation = () => {
   const params = useParams();
   const search = useSearch();
   const settings = useSettings();
+  const navigation = useNavigation();
+  const noti = useNoti();
   const locale = useLocale();
   const create = useMutation(api.documents.create);
   const isResizingRef = useRef(false);
@@ -62,13 +69,15 @@ const Navigation = () => {
 
   const handleMouseUp = (e: MouseEvent) => {
     isResizingRef.current = false;
+    const navbarWidth = Number(sidebarRef.current?.style.width.slice(0, -2));
+    navigation.setNavWidth(navbarWidth);
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
   };
   const handleMouseMove = (e: MouseEvent) => {
     if (!isResizingRef.current) return;
     let newWidth = e.clientX;
-    if (newWidth < 240) newWidth = 240;
+    if (newWidth < DEFAULT_WIDTH) newWidth = DEFAULT_WIDTH;
     if (newWidth > 480) newWidth = 480;
     if (sidebarRef.current && navbarRef.current) {
       sidebarRef.current.style.width = `${newWidth}px`;
@@ -84,12 +93,15 @@ const Navigation = () => {
     if (sidebarRef.current && navbarRef.current) {
       setIsCollapsed(false);
       setIsReset(true);
-      sidebarRef.current.style.width = isMobile ? "100%" : "240px";
+      sidebarRef.current.style.width = isMobile ? "100%" : `${DEFAULT_WIDTH}px`;
       navbarRef.current.style.setProperty(
         "width",
-        isMobile ? "0" : "calc(100% - 240px)"
+        isMobile ? "0" : `calc(100% - ${DEFAULT_WIDTH}px)`
       );
-      navbarRef.current.style.setProperty("left", isMobile ? "100%" : "240px");
+      navbarRef.current.style.setProperty(
+        "left",
+        isMobile ? "100%" : `${DEFAULT_WIDTH}px`
+      );
       setTimeout(() => setIsReset(false), 300);
     }
   };
@@ -136,7 +148,7 @@ const Navigation = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar h-[100vh] bg-secondary overflow-y-hidden relative justify-between flex w-60 flex-col z-[999999]",
+          `group/sidebar h-[100vh] bg-secondary overflow-y-hidden relative justify-between flex w-[${DEFAULT_WIDTH}px] flex-col z-[999999]`,
           isReset && "transition-all ease-in-out duration-300",
           isMobile && "w-0"
         )}
@@ -164,11 +176,13 @@ const Navigation = () => {
             label={t(translations.Title.Settings)}
             icon={Settings}
           />
+
           <Item
-            onClick={settings.onOpen}
-            label={t(translations.Title.Notification)}
-            icon={BellIcon}
+            onClick={noti.toggle}
+            label={t(translations.Noti.Title)}
+            icon={InboxIcon}
           />
+
           <Item
             onClick={handleCreate}
             label={t(translations.Title.New_note)}
@@ -193,7 +207,7 @@ const Navigation = () => {
         </Popover>
 
         <div
-          className="opacity-0 hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"
+          className="opacity-30 hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-[3px] hover:w-1 bg-primary/10 right-0 top-0"
           onMouseDown={handleMouseDown}
           onClick={resetWidth}
         ></div>
@@ -201,7 +215,7 @@ const Navigation = () => {
       <div
         ref={navbarRef}
         className={cn(
-          "absolute top-0 z-[99999] left-60 w-[calc(1000%-240px]",
+          `absolute top-0 z-[99999] left-60 w-[calc(100%-${DEFAULT_WIDTH}px)]`,
           isReset && "transition-all ease-in-out duration-300",
           isMobile && "left-0 w-full"
         )}
@@ -219,6 +233,7 @@ const Navigation = () => {
           </nav>
         )}
       </div>
+      <NotiList />
     </>
   );
 };
