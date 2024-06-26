@@ -11,6 +11,7 @@ import { useNoti } from "~@/hooks/useNoti";
 import { cn } from "~@/lib/utils";
 import { api } from "~convex/_generated/api";
 import { translations } from "~messages/translation";
+import { Doc } from "~convex/_generated/dataModel";
 
 const DEFAULT_WIDTH = 300;
 
@@ -20,7 +21,7 @@ const NotiList = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
   const noti = useNoti();
   const notiRef = useRef<ElementRef<"div">>(null);
-  const notis = useQuery(api.notis.getNotis);
+  const notis: Doc<"notis">[] | undefined = useQuery(api.notis.getNotis);
 
   const collapsed = () => {
     if (notiRef.current) {
@@ -79,7 +80,7 @@ const NotiList = () => {
         )}
         {notis?.map((noti) => {
           return (
-            <div className="flex flex-col p-2">
+            <div key={noti._id} className="flex flex-col p-2">
               <div className="flex justify-between">
                 <div className="flex items-center gap-2">
                   <span className="h-2 w-2 bg-[#2383e2] rounded-[50%]"></span>
