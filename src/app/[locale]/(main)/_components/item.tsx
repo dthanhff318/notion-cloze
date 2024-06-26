@@ -7,7 +7,7 @@ import {
   LucideIcon,
   MoreHorizontal,
   Plus,
-  Star
+  Star,
 } from "lucide-react";
 import moment from "moment";
 import "moment/min/locales.min";
@@ -19,7 +19,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "~@/components/ui/dropdown-menu";
 import { Skeleton } from "~@/components/ui/skeleton";
 import { APP_ROUTE } from "~@/constanst/router";
@@ -152,7 +152,7 @@ const Item = ({
       {documentIcon ? (
         <div
           className={cn(
-            "shrink-0 mr-2 text-[18px]  min-w-[26px]",
+            "shrink-0 mr-2 text-[18px] min-w-[26px]",
             !itemFavourite && "group-hover:hidden"
           )}
         >

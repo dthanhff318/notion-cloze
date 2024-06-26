@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { Doc } from "./_generated/dataModel";
+import { Doc, Id } from "./_generated/dataModel";
 import {
   internalMutation,
   internalQuery,
@@ -36,11 +36,24 @@ export const getNotis = query({
     const identity = await checkAuth(ctx);
     const userId = identity.subject;
 
-    const notis = ctx.db
+    const notis = await ctx.db
       .query("notis")
       .withIndex("by_userId", (q) => q.eq("userId", userId))
       .order("desc")
       .collect();
-    return notis;
+    const extractNotis = await Promise.all(
+      notis.map((noti) => extractNotiData(ctx, noti))
+    );
+    console.log(extractNotis);
+
+    return extractNotis;
   },
 });
+
+const extractNotiData = async (ctx: QueryCtx, data: Doc<"notis">) => {
+  const document = await ctx.db.get(data.documentId as Id<"documents">);
+  return {
+    ...data,
+    document,
+  };
+};

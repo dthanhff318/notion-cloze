@@ -1,8 +1,8 @@
 "use client";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "convex/react";
-import { ChevronsLeft, InboxIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { ChevronsLeft, FileIcon, InboxIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { ElementRef, useEffect, useRef } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { Spinner } from "~@/components/spinner";
@@ -12,21 +12,35 @@ import { cn } from "~@/lib/utils";
 import { api } from "~convex/_generated/api";
 import { translations } from "~messages/translation";
 import { Doc } from "~convex/_generated/dataModel";
+import { Button } from "~@/components/ui/button";
+import { Link, useRouter } from "~@/navigation";
+import { replacePathParams } from "~@/utils/router";
+import { APP_ROUTE } from "~@/constanst/router";
 
 const DEFAULT_WIDTH = 300;
 
 const NotiList = () => {
   const t = useTranslations();
+  const locale = useLocale();
   const { user } = useUser();
   const isMobile = useMediaQuery("(max-width:768px)");
   const noti = useNoti();
   const notiRef = useRef<ElementRef<"div">>(null);
-  const notis: Doc<"notis">[] | undefined = useQuery(api.notis.getNotis);
-
+  const notis = useQuery(api.notis.getNotis);
+  const router = useRouter();
   const collapsed = () => {
     if (notiRef.current) {
       noti.onClose();
     }
+  };
+
+  const jumpToDoc = (id: string) => {
+    router.push(
+      replacePathParams(APP_ROUTE.DOCUMENTS_DETAIL, {
+        id,
+      }),
+      { locale }
+    );
   };
 
   useEffect(() => {
@@ -40,9 +54,9 @@ const NotiList = () => {
     <div
       ref={notiRef}
       className={cn(
-        `group/sidebar overflow-hidden transition-all ease-in-out duration-300 h-[100vh] bg-secondary overflow-y-hidden relative justify-between flex  flex-col z-[999999]`,
-        !noti.isOpen && "w-0",
-        noti.isOpen && `w-[${DEFAULT_WIDTH}px] `
+        `group/sidebar overflow-hidden transition-all ease-in-out w-[${DEFAULT_WIDTH}px] duration-300 h-[100vh] bg-secondary overflow-y-hidden relative justify-between flex  flex-col z-[999999]`,
+        !noti.isOpen && " translate-x-[-200%] z-[99999]",
+        noti.isOpen && `translate-x-0 `
       )}
     >
       <div
@@ -80,25 +94,53 @@ const NotiList = () => {
         )}
         {notis?.map((noti) => {
           return (
-            <div key={noti._id} className="flex flex-col p-2">
-              <div className="flex justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 bg-[#2383e2] rounded-[50%]"></span>
-                  <Avatar className="h-7 w-7">
-                    <AvatarImage
-                      src={user?.imageUrl}
-                      className="object-cover"
-                    />
-                  </Avatar>
-                  <p className="text-sm text-muted-foreground">
+            <div key={noti._id} className="flex p-2 gap-2 items-start">
+              <div className="shrink-0 flex gap-2 items-center ">
+                <span className="h-2 w-2 bg-[#2383e2] rounded-[50%]"></span>
+                <Avatar className="h-7 w-7">
+                  <AvatarImage src={user?.imageUrl} className="object-cover" />
+                </Avatar>
+              </div>
+              <div className="w-full flex flex-col items-start gap-1">
+                <div className="flex justify-between items-baseline w-full">
+                  <p className="text-xs text-muted-foreground">
                     <span className="font-bold">{user?.lastName}</span> request
                     access to
                   </p>
+                  <span className="text-xs text-muted-foreground">2d</span>
+                </div>
+                <div
+                  className="flex items-center"
+                  role="button"
+                  onClick={() => jumpToDoc(noti.documentId)}
+                >
+                  {noti.document?.icon ? (
+                    <div className={cn("mr-1 text-[16px]")}>
+                      {noti.document?.icon}
+                    </div>
+                  ) : (
+                    <FileIcon className="h-[16px] w-[16px] mr-1 text-muted-foreground" />
+                  )}
+
+                  <p className="text-muted-foreground text-xs font-bold underline">
+                    {noti.document?.title}
+                  </p>
+                </div>
+                <div className="bg-warningback p-2 rounded-md">
+                  <p className="text-xs text-warningtext">
+                    Make sure you trust this external user before sharing any
+                    content
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" className="px-2 py-1">
+                    Approve
+                  </Button>
+                  <Button variant="ghost" size="sm" className="px-2 py-1">
+                    Deny
+                  </Button>
                 </div>
               </div>
-              <div></div>
-              <span></span>
-              <div></div>
             </div>
           );
         })}
