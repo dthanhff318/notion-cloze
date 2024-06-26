@@ -88,6 +88,6 @@
   "Noti": {
     "Title": "Inbox",
     "No_noti_title": "You're all caught up.",
-    "No_noti_desc": "You'll be notified here for @mentions, page activity, and page invites."
+    "No_noti_desc": "You'll be notified here for @mentions,<br></br>page activity, and page invites."
   }
 }
