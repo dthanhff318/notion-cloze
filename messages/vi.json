@@ -34,6 +34,11 @@
     "Success": "Chuyển tới hòm lưu trữ thành công!",
     "Error": "Có lỗi xảy ra."
   },
+  "Delete_note": {
+    "Loading": "Đang xóa...",
+    "Success": "Đã xóa ghi chú!",
+    "Error": "Có lỗi xảy ra."
+  },
   "Favourites": {
     "Loading": "Đang thêm vào danh sách yêu thích...",
     "Success": "Đã thêm vào danh sách yêu thích!",
