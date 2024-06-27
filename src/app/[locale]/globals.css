@@ -40,8 +40,8 @@ body,
 
     --radius: 0.5rem;
 
-    --warning-background: #fbf3db;
-    --warning-text: #cb912f;
+    --warning-background: 45, 80%, 92%;
+    --warning-text: 38, 62%, 49%;
   }
 
   .dark {

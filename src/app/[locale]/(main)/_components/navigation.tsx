@@ -233,7 +233,9 @@ const Navigation = () => {
           </nav>
         )}
       </div>
-      <NotiList />
+      <div>
+        <NotiList />
+      </div>
     </>
   );
 };

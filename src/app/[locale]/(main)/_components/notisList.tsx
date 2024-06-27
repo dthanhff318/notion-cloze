@@ -7,17 +7,17 @@ import { ElementRef, useEffect, useRef } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { Spinner } from "~@/components/spinner";
 import { Avatar, AvatarImage } from "~@/components/ui/avatar";
+import { Button } from "~@/components/ui/button";
+import { APP_ROUTE } from "~@/constanst/router";
+import { useNavigation } from "~@/hooks/useNavigation";
 import { useNoti } from "~@/hooks/useNoti";
 import { cn } from "~@/lib/utils";
+import { useRouter } from "~@/navigation";
+import { replacePathParams } from "~@/utils/router";
 import { api } from "~convex/_generated/api";
 import { translations } from "~messages/translation";
-import { Doc } from "~convex/_generated/dataModel";
-import { Button } from "~@/components/ui/button";
-import { Link, useRouter } from "~@/navigation";
-import { replacePathParams } from "~@/utils/router";
-import { APP_ROUTE } from "~@/constanst/router";
 
-const DEFAULT_WIDTH = 300;
+const DEFAULT_WIDTH = 310;
 
 const NotiList = () => {
   const t = useTranslations();
@@ -25,6 +25,7 @@ const NotiList = () => {
   const { user } = useUser();
   const isMobile = useMediaQuery("(max-width:768px)");
   const noti = useNoti();
+  const navigation = useNavigation();
   const notiRef = useRef<ElementRef<"div">>(null);
   const notis = useQuery(api.notis.getNotis);
   const router = useRouter();
@@ -54,15 +55,15 @@ const NotiList = () => {
     <div
       ref={notiRef}
       className={cn(
-        `group/sidebar overflow-hidden transition-all ease-in-out w-[${DEFAULT_WIDTH}px] duration-300 h-[100vh] bg-secondary overflow-y-hidden relative justify-between flex  flex-col z-[999999]`,
-        !noti.isOpen && " translate-x-[-200%] z-[99999]",
+        `group/side-noti absolute top-0 left-[${navigation.navWidth}px] overflow-hidden transition-all ease-in-out w-[${DEFAULT_WIDTH}px] duration-300 h-[100vh] bg-secondary overflow-y-hidden justify-between flex flex-col z-[999999]`,
+        !noti.isOpen && "translate-x-[-200%] z-[99999]",
         noti.isOpen && `translate-x-0 `
       )}
     >
       <div
         role="button"
         className={cn(
-          "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
+          "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/side-noti:opacity-100 transition",
           isMobile && "opacity-100"
         )}
         onClick={collapsed}
@@ -94,7 +95,10 @@ const NotiList = () => {
         )}
         {notis?.map((noti) => {
           return (
-            <div key={noti._id} className="flex p-2 gap-2 items-start">
+            <div
+              key={noti._id}
+              className="hover:bg-muted-foreground/10 flex p-2 gap-2 items-start"
+            >
               <div className="shrink-0 flex gap-2 items-center ">
                 <span className="h-2 w-2 bg-[#2383e2] rounded-[50%]"></span>
                 <Avatar className="h-7 w-7">
@@ -126,17 +130,17 @@ const NotiList = () => {
                     {noti.document?.title}
                   </p>
                 </div>
-                <div className="bg-warningback p-2 rounded-md">
+                <div className="bg-warningback px-2 py-1 rounded-md">
                   <p className="text-xs text-warningtext">
                     Make sure you trust this external user before sharing any
                     content
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" className="px-2 py-1">
+                  <Button variant="outline" size="sm" className="text-xs">
                     Approve
                   </Button>
-                  <Button variant="ghost" size="sm" className="px-2 py-1">
+                  <Button variant="ghost" size="sm" className="text-xs">
                     Deny
                   </Button>
                 </div>
