@@ -1,12 +1,22 @@
 "use client";
-import React from "react";
+import React, { ReactNode } from "react";
 import Image from "next/image";
 import { Button } from "~@/components/ui/button";
 import Link from "next/link";
 import { APP_ROUTE } from "~@/constanst/router";
 
-// export default Error;
-class ErrorBoundary extends React.Component {
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: any) {
     super(props);
 
