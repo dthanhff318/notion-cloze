@@ -37,7 +37,7 @@ export default defineSchema({
     userId: v.string(),
     type: v.string(),
     fromUser: v.optional(v.string()),
-    documentId: v.string(),
+    documentId: v.id("documents"),
   })
     .index("by_userId", ["userId"])
     .index("by_fromUser", ["fromUser"]),

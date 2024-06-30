@@ -4,6 +4,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useMutation, useQuery } from "convex/react";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
+import RequestPermission from "~@/app/[locale]/(public)/(routes)/preview/_components/requestPermission";
 import Cover from "~@/components/cover";
 import Toolbar from "~@/components/toolbar";
 import { Skeleton } from "~@/components/ui/skeleton";
@@ -55,6 +56,10 @@ const DocumentIdPage = ({ params }: Props) => {
   }
   if (document === null) {
     return <div>Not found</div>;
+  }
+
+  if ((document as any).status === 403) {
+    return <RequestPermission />;
   }
 
   return (

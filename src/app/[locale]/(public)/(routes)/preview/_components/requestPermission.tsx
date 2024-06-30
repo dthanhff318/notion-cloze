@@ -9,11 +9,12 @@ import { api } from "~convex/_generated/api";
 import { useParams } from "next/navigation";
 import { useUser } from "@clerk/clerk-react";
 import { toast } from "sonner";
+import { Id } from "~convex/_generated/dataModel";
 
 const RequestPermission = () => {
   const t = useTranslations();
   const { user } = useUser();
-  const params = useParams<{ documentId: string }>();
+  const params = useParams<{ documentId: Id<"documents"> }>();
   const request = useMutation(api.notis.createNotis);
 
   const onRequest = () => {

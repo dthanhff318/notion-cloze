@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { Doc, Id } from "./_generated/dataModel";
 import {
+  action,
   internalMutation,
   internalQuery,
   mutation,
@@ -8,6 +9,11 @@ import {
   QueryCtx,
 } from "./_generated/server";
 import { UserJSON } from "@clerk/backend";
+
+enum ACTION_TYPE {
+  ACCEPT = "accept",
+  DENY = "deny",
+}
 
 const checkAuth = async (ctx: QueryCtx) => {
   const identity = await ctx.auth.getUserIdentity();
@@ -21,7 +27,7 @@ export const createNotis = mutation({
   args: {
     fromUser: v.optional(v.string()),
     type: v.string(),
-    documentId: v.string(),
+    documentId: v.id("documents"),
   },
   handler: async (ctx, args) => {
     const identity = await checkAuth(ctx);
@@ -44,8 +50,6 @@ export const getNotis = query({
     const extractNotis = await Promise.all(
       notis.map((noti) => extractNotiData(ctx, noti))
     );
-    console.log(extractNotis);
-
     return extractNotis;
   },
 });
@@ -57,3 +61,37 @@ const extractNotiData = async (ctx: QueryCtx, data: Doc<"notis">) => {
     document,
   };
 };
+
+export const handleRequestPermission = mutation({
+  args: {
+    notiId: v.id("notis"),
+    action: v.string(),
+  },
+  handler: async (ctx, arg) => {
+    const identity = await checkAuth(ctx);
+    const userId = identity.subject;
+    const noti = await ctx.db.get(arg.notiId);
+    if (!noti) {
+      throw new Error("Not found");
+    }
+    const document = await ctx.db.get(noti.documentId);
+    if (!document) {
+      throw new Error("Not found");
+    }
+    if (userId !== document?.userId) {
+      throw new Error("You don't have permission for this action");
+    }
+    if (arg.action === ACTION_TYPE.ACCEPT && noti.fromUser) {
+      const newListMembers = [...(document.members ?? []), noti.fromUser];
+      await ctx.db.patch(noti.documentId, {
+        members: newListMembers,
+      });
+      await ctx.db.delete(arg.notiId);
+      return;
+    }
+    if (arg.action === ACTION_TYPE.DENY) {
+      await ctx.db.delete(arg.notiId);
+      return;
+    }
+  },
+});

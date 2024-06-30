@@ -5,13 +5,11 @@ import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import Cover from "~@/components/cover";
 import Toolbar from "~@/components/toolbar";
-import { Button } from "~@/components/ui/button";
 import { Skeleton } from "~@/components/ui/skeleton";
 
+import RequestPermission from "~@/app/[locale]/(public)/(routes)/preview/_components/requestPermission";
 import { api } from "~convex/_generated/api";
 import { Id } from "~convex/_generated/dataModel";
-import Image from "next/image";
-import RequestPermission from "~@/app/[locale]/(public)/(routes)/preview/_components/requestPermission";
 
 type Props = {
   params: {

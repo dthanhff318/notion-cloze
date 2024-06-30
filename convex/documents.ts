@@ -241,6 +241,14 @@ export const getById = query({
     if (document.isPublished && !document.isArchived) {
       return document;
     }
+    if (!document.isPublished && userId !== document.userId) {
+      if (!document.members?.includes(userId)) {
+        return {
+          ...document,
+          status: 403,
+        };
+      }
+    }
 
     if (document.userId !== userId) {
       throw new Error("Unauthorized");

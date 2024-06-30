@@ -2,6 +2,7 @@
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "convex/react";
 import { ChevronsLeft, FileIcon, InboxIcon } from "lucide-react";
+import moment from "moment";
 import { useLocale, useTranslations } from "next-intl";
 import { ElementRef, useEffect, useRef } from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -29,6 +30,8 @@ const NotiList = () => {
   const notiRef = useRef<ElementRef<"div">>(null);
   const notis = useQuery(api.notis.getNotis);
   const router = useRouter();
+  moment.locale(locale);
+
   const collapsed = () => {
     if (notiRef.current) {
       noti.onClose();
@@ -42,6 +45,13 @@ const NotiList = () => {
       }),
       { locale }
     );
+  };
+
+  const handleAction = async (type: string, action: string) => {
+    switch (type) {
+      case "REQUEST_PERMISSION":
+        if (action === "") break;
+    }
   };
 
   useEffect(() => {
@@ -111,7 +121,9 @@ const NotiList = () => {
                     <span className="font-bold">{user?.lastName}</span> request
                     access to
                   </p>
-                  <span className="text-xs text-muted-foreground">2d</span>
+                  <span className="text-xs text-muted-foreground mr-2">
+                    {moment(noti._creationTime).startOf("day").fromNow()}
+                  </span>
                 </div>
                 <div
                   className="flex items-center"
