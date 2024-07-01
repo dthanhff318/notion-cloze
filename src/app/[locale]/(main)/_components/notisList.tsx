@@ -1,6 +1,6 @@
 "use client";
 import { useUser } from "@clerk/clerk-react";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { ChevronsLeft, FileIcon, InboxIcon } from "lucide-react";
 import moment from "moment";
 import { useLocale, useTranslations } from "next-intl";
@@ -16,9 +16,15 @@ import { cn } from "~@/lib/utils";
 import { useRouter } from "~@/navigation";
 import { replacePathParams } from "~@/utils/router";
 import { api } from "~convex/_generated/api";
+import { Id } from "~convex/_generated/dataModel";
 import { translations } from "~messages/translation";
 
 const DEFAULT_WIDTH = 310;
+
+enum ACTION_TYPE {
+  ACCEPT = "accept",
+  DENY = "deny",
+}
 
 const NotiList = () => {
   const t = useTranslations();
@@ -30,6 +36,7 @@ const NotiList = () => {
   const notiRef = useRef<ElementRef<"div">>(null);
   const notis = useQuery(api.notis.getNotis);
   const router = useRouter();
+  const actionNoti = useMutation(api.notis.handleRequestPermission);
   moment.locale(locale);
 
   const collapsed = () => {
@@ -47,10 +54,18 @@ const NotiList = () => {
     );
   };
 
-  const handleAction = async (type: string, action: string) => {
-    switch (type) {
+  const handleAction = async (
+    typeNoti: string,
+    notiId: Id<"notis">,
+    action: ACTION_TYPE
+  ) => {
+    switch (typeNoti) {
       case "REQUEST_PERMISSION":
-        if (action === "") break;
+        await actionNoti({
+          notiId,
+          action,
+        });
+        break;
     }
   };
 
@@ -148,11 +163,25 @@ const NotiList = () => {
                     content
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" className="text-xs">
+                <div className="flex items-center gap-2 mt-1">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs"
+                    onClick={() =>
+                      handleAction(noti.type, noti._id, ACTION_TYPE.ACCEPT)
+                    }
+                  >
                     Approve
                   </Button>
-                  <Button variant="ghost" size="sm" className="text-xs">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-xs"
+                    onClick={() =>
+                      handleAction(noti.type, noti._id, ACTION_TYPE.DENY)
+                    }
+                  >
                     Deny
                   </Button>
                 </div>
