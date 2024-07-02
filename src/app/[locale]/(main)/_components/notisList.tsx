@@ -24,6 +24,7 @@ const DEFAULT_WIDTH = 310;
 enum ACTION_TYPE {
   ACCEPT = "accept",
   DENY = "deny",
+  SEEN = "seen",
 }
 
 const NotiList = () => {
