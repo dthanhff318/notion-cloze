@@ -38,7 +38,6 @@ const NotiList = () => {
   const router = useRouter();
   const actionNoti = useMutation(api.notis.handleRequestPermission);
   moment.locale(locale);
-
   const collapsed = () => {
     if (notiRef.current) {
       noti.onClose();
