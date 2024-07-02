@@ -1,14 +1,6 @@
 import { v } from "convex/values";
 import { Doc, Id } from "./_generated/dataModel";
-import {
-  action,
-  internalMutation,
-  internalQuery,
-  mutation,
-  query,
-  QueryCtx,
-} from "./_generated/server";
-import { UserJSON } from "@clerk/backend";
+import { QueryCtx, mutation, query } from "./_generated/server";
 
 enum ACTION_TYPE {
   ACCEPT = "accept",
