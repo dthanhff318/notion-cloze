@@ -89,6 +89,7 @@ export const handleRequestPermission = mutation({
       await ctx.db.delete(arg.notiId);
       return;
     }
+
     if (arg.action === ACTION_TYPE.DENY) {
       await ctx.db.delete(arg.notiId);
       return;
