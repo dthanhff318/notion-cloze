@@ -29,7 +29,6 @@ const Navbar = () => {
           <>
             <SignInButton
               mode="modal"
-              fallbackRedirectUrl={APP_ROUTE.DOCUMENTS}
             >
               <Button variant={"ghost"} size="sm">
                 Log in

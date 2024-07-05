@@ -59,7 +59,6 @@ const NotiList = () => {
       collapsed();
     }
   }, [isMobile]);
-  console.log(notis);
 
   return (
     <div

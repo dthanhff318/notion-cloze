@@ -4,6 +4,7 @@ import {
   internalMutation,
   internalQuery,
   mutation,
+  query,
   QueryCtx,
 } from "./_generated/server";
 import { UserJSON } from "@clerk/backend";
@@ -49,3 +50,19 @@ export const userQuery = async (id: string, ctx: QueryCtx) => {
     .withIndex("by_clerk_id", (q) => q.eq("clerkId", id))
     .unique();
 };
+
+export const getUsers = query({
+  args: {
+    email: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const users = await ctx.db
+      .query("users")
+      .withSearchIndex("search_email", (q) =>
+        q.search("email", args.email ?? "")
+      )
+      .collect();
+
+    return users;
+  },
+});

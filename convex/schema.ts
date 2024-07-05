@@ -31,7 +31,11 @@ export default defineSchema({
     lastName: v.optional(v.string()),
     email: v.string(),
     imageUrl: v.optional(v.string()),
-  }).index("by_clerk_id", ["clerkId"]),
+  })
+    .index("by_clerk_id", ["clerkId"])
+    .searchIndex("search_email", {
+      searchField: "email",
+    }),
   // Noti
   notis: defineTable({
     userId: v.string(),
