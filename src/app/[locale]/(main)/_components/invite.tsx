@@ -1,17 +1,16 @@
 "use client";
-import { useMutation, useQuery } from "convex/react";
-import { AppWindow, Check, Copy, Globe, Radio } from "lucide-react";
+import { useQuery } from "convex/react";
+import { UserRoundSearch } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { toast } from "sonner";
+import { Avatar, AvatarImage } from "~@/components/ui/avatar";
 import { Button } from "~@/components/ui/button";
-import { useOrigin } from "~@/hooks/useOrigin";
+import { Input } from "~@/components/ui/input";
+import useDebounce from "~@/hooks/useDebounce";
 import { api } from "~convex/_generated/api";
 import { Doc } from "~convex/_generated/dataModel";
-import { Switch } from "~@/components/ui/switch";
-import { useTranslations } from "next-intl";
 import { translations } from "~messages/translation";
-import { Input } from "~@/components/ui/input";
-import { Avatar, AvatarImage } from "~@/components/ui/avatar";
+import { useUser } from "@clerk/clerk-react";
 
 type Props = {
   initialData: Doc<"documents">;
@@ -19,11 +18,14 @@ type Props = {
 
 const Invite = ({ initialData }: Props) => {
   const t = useTranslations();
+  const { user } = useUser();
   const [search, setSearch] = useState<string>("");
+  const debounceValue = useDebounce(search, search);
   const searchUsers = useQuery(api.users.getUsers, {
-    email: search,
-  });
-  console.log(searchUsers);
+    email: debounceValue,
+  })?.filter((e) => e.clerkId !== user?.id);
+  console.log(debounceValue);
+
   return (
     <>
       <div className="space-y-2">
@@ -34,7 +36,9 @@ const Invite = ({ initialData }: Props) => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <Button className="h-8">{t(translations.Title.Search)}</Button>
+          <Button className="h-8">
+            <UserRoundSearch />
+          </Button>
         </div>
         <div className="flex flex-col">
           {searchUsers === undefined && !search && <></>}
